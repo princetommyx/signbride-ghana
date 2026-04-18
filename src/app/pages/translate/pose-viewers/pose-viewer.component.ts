@@ -6,6 +6,7 @@ import {Store} from '@ngxs/store';
 import {SetSignedLanguageVideo} from '../../../modules/translate/translate.actions';
 import {PlayableVideoEncoder} from './playable-video-encoder';
 import {isChrome} from '../../../core/constants';
+import {PosePlaybackService} from './pose-playback.service';
 
 @Component({
   selector: 'app-pose-viewer',
@@ -14,6 +15,7 @@ import {isChrome} from '../../../core/constants';
 })
 export abstract class BasePoseViewerComponent extends BaseComponent implements OnInit, OnDestroy {
   protected store = inject(Store);
+  protected playback = inject(PosePlaybackService);
 
   readonly poseEl = viewChild<ElementRef<HTMLPoseViewerElement>>('poseViewer');
 
@@ -66,6 +68,7 @@ export abstract class BasePoseViewerComponent extends BaseComponent implements O
     super.ngOnDestroy();
 
     this.reset();
+    this.playback.reset();
   }
 
   setVideo(url: string): void {

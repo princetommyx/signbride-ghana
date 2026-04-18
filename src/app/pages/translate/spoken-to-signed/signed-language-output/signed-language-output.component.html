@@ -1,4 +1,5 @@
 @if (videoUrl) {
+  <app-smart-tips></app-smart-tips>
   <video
     [src]="safeVideoUrl"
     autoplay
@@ -8,9 +9,12 @@
     height="100%"
     width="100%"
     (error)="onVideoError($event)"
+    (loadedmetadata)="onVideoLoadedMetadata($event)"
+    (timeupdate)="onVideoTimeUpdate($event)"
     (click)="playVideoIfPaused($event)"></video>
 } @else {
   @if (pose$ | async; as pose) {
+    <app-smart-tips></app-smart-tips>
     @if (poseViewerSetting$ | async; as poseViewerSetting) {
       @if (poseViewerSetting === 'pose') {
         <app-skeleton-pose-viewer [src]="pose" />

@@ -83,6 +83,7 @@ export class HumanPoseViewerComponent extends BasePoseViewerComponent implements
             await new Promise(requestAnimationFrame); // Await animation frame due to canvas change
             const image = await transferableImage(poseCanvas, poseCtx);
             await pose.nextFrame();
+            this.playback.updateTiming(pose.currentTime, pose.duration);
             this.translateFrame(image, canvas, ctx).then(() => {
               queued--;
               iterFrame();

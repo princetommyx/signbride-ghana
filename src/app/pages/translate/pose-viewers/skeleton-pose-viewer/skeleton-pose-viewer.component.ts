@@ -22,11 +22,22 @@ export class SkeletonPoseViewerComponent extends BasePoseViewerComponent impleme
           const poseCanvas = pose.shadowRoot.querySelector('canvas');
           pose.currentTime = 0; // Force time back to 0
 
+          this.playback.updateTiming(pose.currentTime, pose.duration);
+
           // startRecording is imperfect, specifically when the tab is out of focus.
           if (!PlayableVideoEncoder.isSupported()) {
             await this.startRecording(poseCanvas as any);
           }
         }),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe();
+
+    // Always publish playback timing so UI overlays can react,
+    // independent of whether we are recording/encoding.
+    fromEvent(pose, 'render$')
+      .pipe(
+        tap(() => this.playback.updateTiming(pose.currentTime, pose.duration)),
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe();

@@ -1,0 +1,10 @@
+@if (message$ | async; as message) {
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tip: {{ message.word }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ message.tip }}
+    </ion-card-content>
+  </ion-card>
+}

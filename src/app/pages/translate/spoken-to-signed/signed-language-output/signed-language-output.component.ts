@@ -22,6 +22,8 @@ import {AsyncPipe} from '@angular/common';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {addIcons} from 'ionicons';
 import {downloadOutline, shareOutline, shareSocialOutline} from 'ionicons/icons';
+import {SmartTipsComponent} from '../../../../components/smart-tips/smart-tips.component';
+import {PosePlaybackService} from '../../pose-viewers/pose-playback.service';
 
 @Component({
   selector: 'app-signed-language-output',
@@ -34,6 +36,7 @@ import {downloadOutline, shareOutline, shareSocialOutline} from 'ionicons/icons'
     AvatarPoseViewerComponent,
     SkeletonPoseViewerComponent,
     HumanPoseViewerComponent,
+    SmartTipsComponent,
     TranslocoPipe,
     AsyncPipe,
     MatTooltipModule,
@@ -43,6 +46,7 @@ import {downloadOutline, shareOutline, shareSocialOutline} from 'ionicons/icons'
 export class SignedLanguageOutputComponent extends BaseComponent implements OnInit {
   private store = inject(Store);
   private domSanitizer = inject(DomSanitizer);
+  private playback = inject(PosePlaybackService);
 
   poseViewerSetting$!: Observable<PoseViewerSetting>;
   pose$!: Observable<string>;
@@ -93,6 +97,16 @@ export class SignedLanguageOutputComponent extends BaseComponent implements OnIn
     if (video.paused) {
       video.play().then().catch();
     }
+  }
+
+  onVideoLoadedMetadata(event: Event): void {
+    const video = event.target as HTMLVideoElement;
+    this.playback.updateTiming(video.currentTime, video.duration);
+  }
+
+  onVideoTimeUpdate(event: Event): void {
+    const video = event.target as HTMLVideoElement;
+    this.playback.updateTiming(video.currentTime, video.duration);
   }
 
   async createVideoMediaSource() {
