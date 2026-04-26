@@ -46,7 +46,7 @@ export class TranslationService {
   }
 
   describeSignWriting(fsw: string): Observable<string> {
-    const url = '/api/signwriting-description';
+    const url = 'https://us-central1-sign-mt.cloudfunctions.net/signwriting_description';
 
     return this.http
       .post<{result: {description: string}}>(url, {data: {fsw}})
@@ -54,7 +54,7 @@ export class TranslationService {
   }
 
   translateSpokenToSigned(text: string, spokenLanguage: string, signedLanguage: string): string {
-    const api = '/api/v1/spoken-text-to-signed-pose';
+    const api = 'https://us-central1-sign-mt.cloudfunctions.net/spoken_text_to_signed_pose';
     return `${api}?text=${encodeURIComponent(text)}&spoken=${spokenLanguage}&signed=${signedLanguage}`;
   }
 }
