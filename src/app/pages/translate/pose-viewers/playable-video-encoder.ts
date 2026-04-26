@@ -64,6 +64,10 @@ export class PlayableVideoEncoder {
   }
 
   async addFrame(image: ImageBitmap) {
+    if (!this.bitmapSource || this.output.target['finalized']) {
+      return;
+    }
+
     const timestamp = this.frameIndex / this.fps;
     const duration = 1 / this.fps;
 
@@ -81,7 +85,12 @@ export class PlayableVideoEncoder {
       timestamp,
       duration,
     });
-    await this.bitmapSource.add(sample);
+
+    try {
+      await this.bitmapSource.add(sample);
+    } catch (e) {
+      console.warn('Could not add frame to video encoder', e);
+    }
 
     // Clean up resized image if we created a new one
     if (resizedImage !== image) {
@@ -92,8 +101,13 @@ export class PlayableVideoEncoder {
   }
 
   async finalize() {
+    if (!this.bitmapSource || this.output.target['finalized']) {
+      return null;
+    }
+
     this.bitmapSource.close();
     await this.output.finalize();
+    this.output.target['finalized'] = true;
 
     const buffer = (this.output.target as any).buffer as ArrayBuffer;
     return new Blob([buffer], {type: 'video/mp4'});
@@ -101,7 +115,11 @@ export class PlayableVideoEncoder {
 
   close() {
     if (this.bitmapSource) {
-      this.bitmapSource.close();
+      try {
+        this.bitmapSource.close();
+      } catch (e) {
+        // already closed
+      }
       delete this.bitmapSource;
     }
     if (this.output) {

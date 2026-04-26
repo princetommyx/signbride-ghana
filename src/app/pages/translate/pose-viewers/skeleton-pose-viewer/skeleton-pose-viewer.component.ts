@@ -50,10 +50,19 @@ export class SkeletonPoseViewerComponent extends BasePoseViewerComponent impleme
     // Most reliable method to create a video from a canvas
     if (PlayableVideoEncoder.isSupported()) {
       let lastRendered = NaN;
+      let isFinalized = false;
+
+      fromEvent(pose, 'ended$')
+        .pipe(
+          tap(() => (isFinalized = true)),
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe();
+
       fromEvent(pose, 'render$')
         .pipe(
           tap(async () => {
-            if (pose.currentTime === lastRendered) {
+            if (isFinalized || pose.currentTime === lastRendered) {
               // There are possibly redundant renders when video is paused or tab is out of focus
               return;
             }

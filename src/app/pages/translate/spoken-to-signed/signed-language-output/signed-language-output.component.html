@@ -11,12 +11,27 @@
     (loadedmetadata)="onVideoLoadedMetadata($event)"
     (timeupdate)="onVideoTimeUpdate($event)"
     (click)="playVideoIfPaused($event)"></video>
-  <app-smart-tips></app-smart-tips>
 } @else {
-  @if (pose$ | async; as pose) {
-    <app-skeleton-pose-viewer [src]="pose" />
-    <app-smart-tips></app-smart-tips>
+  @if ((poseViewerSetting$ | async) === 'avatar') {
+    @if (pose$ | async; as pose) {
+      <app-avatar-pose-viewer [src]="pose" />
+    }
   }
+
+  @if ((poseViewerSetting$ | async) === 'pose') {
+    @if (pose$ | async; as pose) {
+      <app-skeleton-pose-viewer [src]="pose" />
+    }
+  }
+
+  @if ((poseViewerSetting$ | async) === 'person') {
+    @if (pose$ | async; as pose) {
+      <app-human-pose-viewer [src]="pose" />
+    }
+  }
+}
+@if (pose$ | async; as pose) {
+  <app-smart-tips></app-smart-tips>
 }
 @if (pose$ | async; as pose) {
   <div class="actions-row">
