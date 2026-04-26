@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +47,7 @@ export class TranslationService {
   }
 
   describeSignWriting(fsw: string): Observable<string> {
-    const url = 'https://us-central1-sign-mt.cloudfunctions.net/signwriting_description';
+    const url = `${environment.signMtBase}/signwriting_description`;
 
     return this.http
       .post<{result: {description: string}}>(url, {data: {fsw}})
@@ -54,7 +55,8 @@ export class TranslationService {
   }
 
   translateSpokenToSigned(text: string, spokenLanguage: string, signedLanguage: string): string {
-    const api = 'https://us-central1-sign-mt.cloudfunctions.net/spoken_text_to_signed_pose';
-    return `${api}?text=${encodeURIComponent(text)}&spoken=${spokenLanguage}&signed=${signedLanguage}`;
+    // Works locally via Angular proxy (proxy.conf.json) and uses absolute URL on production
+    const base = environment.signMtBase;
+    return `${base}/spoken_text_to_signed_pose?text=${encodeURIComponent(text)}&spoken=${spokenLanguage}&signed=${signedLanguage}`;
   }
 }

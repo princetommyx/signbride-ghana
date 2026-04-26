@@ -11,4 +11,6 @@ export const environment = {
   },
   geminiApiKey: 'AIzaSyAmQL2w7PB4Cx_BCm-mTCUfOjC8Q7zEJgI',
   reCAPTCHAKey: '6Ldsxb8oAAAAAGyUZbyd0QruivPSudqAWFygR-4t',
+  // Prod: absolute URL, browser fetch is CORS-safe from signbridge-577bb.web.app
+  signMtBase: 'https://us-central1-sign-mt.cloudfunctions.net',
 };

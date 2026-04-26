@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {AssetsService} from '../../core/services/assets/assets.service';
 import {filter, map} from 'rxjs/operators';
 import {ComlinkWorkerInterface, ModelRegistry, TranslationResponse} from '@sign-mt/browsermt';
+import {environment} from '../../../environments/environment';
 
 type TranslationDirection = 'spoken-to-signed' | 'signed-to-spoken';
 
@@ -86,7 +87,7 @@ export class SignWritingTranslationService {
     // const query = new URLSearchParams({from, to, text});
     // return this.http.get<TranslationResponse>(`https://sign.mt/api/${direction}?${query}`);'
 
-    const url = 'https://us-central1-sign-mt.cloudfunctions.net/spoken_text_to_signwriting';
+    const url = `${environment.signMtBase}/spoken_text_to_signwriting`;
     const body = {
       data: {
         texts: sentences.map(s => s.trim()),
