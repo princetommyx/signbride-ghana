@@ -19,7 +19,11 @@
       @for (msg of messages; track $index) {
         <div class="message-group" [class.user]="msg.role === 'user'">
           <div class="message-bubble">
-            {{ stripDictionaryLink(msg.text) }}
+            @if (msg.role === 'user') {
+              {{ msg.text }}
+            } @else {
+              <div [innerHTML]="renderMarkdown(msg.text)"></div>
+            }
           </div>
 
           <!-- Special Dictionary Reference Button -->

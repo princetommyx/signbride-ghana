@@ -141,9 +141,35 @@ export class GeminiChatService {
 
   private handleOfflineRequest(request: GeminiChatRequest): Observable<string> {
     return new Observable<string>(observer => {
-      const query = request.userMessage.toLowerCase();
+      const query = request.userMessage.toLowerCase().trim();
+      // Remove common filler words and prefixes to find the actual sign name
+      const wordToSign = query
+        .replace(/^(how|do|i|to|sign|what|is|the|for|please|show|me|tell|me)\s+/g, '')
+        .replace(/\b(how|do|i|to|sign|what|is|the|for|of|a|an)\b/g, '')
+        .replace(/\?$/, '')
+        .trim();
 
-      // 1. Check for FAQ matches
+      // 1. Search local dictionary first (high priority for "how to sign" questions)
+      const matches = this.allSigns
+        .filter(
+          s =>
+            s.word.toLowerCase() === wordToSign ||
+            s.word.toLowerCase() === query ||
+            s.word.toLowerCase().includes(wordToSign)
+        )
+        .slice(0, 3);
+
+      if (matches.length > 0) {
+        let response = "I'm currently in offline mode, but I've found these signs for you in our GSL dictionary:\n\n";
+        matches.forEach(m => {
+          response += `• **${m.word}**: ${m.description} [See "${m.word}" in Dictionary]\n`;
+        });
+        observer.next(response);
+        observer.complete();
+        return;
+      }
+
+      // 2. Fallback to FAQ if no specific sign matches
       const faq = this.getOfflineFAQ(query);
       if (faq) {
         observer.next(faq);
@@ -151,24 +177,9 @@ export class GeminiChatService {
         return;
       }
 
-      // 2. Search local dictionary
-      const matches = this.allSigns
-        .filter(s => s.word.toLowerCase().includes(query) || s.category.toLowerCase().includes(query))
-        .slice(0, 3);
-
-      if (matches.length > 0) {
-        let response =
-          "I'm having a bit of trouble connecting to my AI core, but I've found these relevant signs for you in our GSL dictionary:\n\n";
-        matches.forEach(m => {
-          response += `• **${m.word}**: ${m.description}\n`;
-        });
-        response += '\nFeel free to ask about another word!';
-        observer.next(response);
-      } else {
-        observer.next(
-          "I'm currently unable to reach my AI service, and I couldn't find an exact match for that in my local dictionary. Try searching for common words like 'Hello', 'Teacher', or 'Ghana'!"
-        );
-      }
+      observer.next(
+        "I'm currently unable to reach my AI service, and I couldn't find an exact match for that in my local dictionary. Try asking about a specific word like 'Hello', 'Teacher', or 'Ghana'!"
+      );
       observer.complete();
     });
   }
@@ -181,7 +192,7 @@ export class GeminiChatService {
     if (lowerQuery.includes('who built') || lowerQuery.includes('creator')) {
       return 'This platform, SignBridge Ghana, was developed to bridge the communication gap between the Deaf and hearing communities in Ghana using AI and 3D technology.';
     }
-    if (lowerQuery.includes('hi') || lowerQuery.includes('hello') || lowerQuery.includes('hey')) {
+    if (query === 'hi' || query === 'hello' || query === 'hey') {
       return "Hello! I'm here to help you with Ghana Sign Language (GSL). You can ask me how to sign specific words or ask questions about the language!";
     }
     if (lowerQuery.includes('help')) {

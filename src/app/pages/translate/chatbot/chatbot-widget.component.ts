@@ -4,6 +4,8 @@ import {IonButton} from '@ionic/angular/standalone';
 import {GeminiChatContext, GeminiChatMessage, GeminiChatService} from './gemini-chat.service';
 import {Store} from '@ngxs/store';
 import {Router} from '@angular/router';
+import {marked} from 'marked';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chatbot-widget',
@@ -16,6 +18,7 @@ export class ChatbotWidgetComponent {
   private store = inject(Store);
   private chatService = inject(GeminiChatService);
   private router = inject(Router);
+  private sanitizer = inject(DomSanitizer);
 
   @ViewChild('messagesList') messagesList?: ElementRef<HTMLDivElement>;
 
@@ -38,6 +41,11 @@ export class ChatbotWidgetComponent {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
       this.scrollToBottom();
+      // Focus the textarea when opening
+      setTimeout(() => {
+        const textarea = document.querySelector('.chat-input textarea') as HTMLTextAreaElement;
+        textarea?.focus();
+      }, 500);
     }
   }
 
@@ -71,6 +79,7 @@ export class ChatbotWidgetComponent {
         this.scrollToBottom();
       },
       error: err => {
+        console.error('Chat error', err);
         this.errorMessage = err.message || 'Unable to get a response right now. Please try again in a moment.';
         this.isSending = false;
         if (!botMessage.text) {
@@ -82,11 +91,27 @@ export class ChatbotWidgetComponent {
         this.isSending = false;
       },
     });
+
+    // Safety timeout: if no response in 15s, reset the sending state so the user can type again
+    setTimeout(() => {
+      if (this.isSending) {
+        this.isSending = false;
+        if (!botMessage.text) {
+          this.errorMessage = 'The response is taking longer than usual. You can try sending again.';
+        }
+      }
+    }, 15000);
   }
 
   getDictionaryLink(text: string): string | null {
     const match = text.match(/\[See "(.*?)" in Dictionary\]/);
     return match ? match[1] : null;
+  }
+
+  renderMarkdown(text: string): SafeHtml {
+    const stripped = this.stripDictionaryLink(text);
+    const html = marked.parse(stripped) as string;
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   stripDictionaryLink(text: string): string {
