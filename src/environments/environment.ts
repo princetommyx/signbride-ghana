@@ -15,8 +15,8 @@ export const environment = {
   },
   geminiApiKey: 'AIzaSyAmQL2w7PB4Cx_BCm-mTCUfOjC8Q7zEJgI',
   reCAPTCHAKey: '6Ldsxb8oAAAAAGyUZbyd0QruivPSudqAWFygR-4t',
-  // Dev: empty string so relative paths like /spoken_text_to_signed_pose route through the Angular proxy
-  signMtBase: '',
+  // sign-mt endpoint returns Access-Control-Allow-Origin: * so this works from localhost too
+  signMtBase: 'https://us-central1-sign-mt.cloudfunctions.net',
 };
 
 /*
