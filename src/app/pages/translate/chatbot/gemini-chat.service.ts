@@ -23,13 +23,12 @@ interface GeminiChatRequest {
 }
 
 const SYSTEM_PROMPT =
-  'You are a concise, helpful assistant for the Ghana Sign Language (GSL) translation app. ' +
-  'Your primary goal is to help users learn and translate into GSL. ' +
-  'Keep answers practical, clear, and respectful. Prefer short paragraphs and bullet points when useful. ' +
-  'You have access to an official GSL Dictionary. When you explain how to sign a word, ' +
-  'always include a reference at the end of your response in this exact format: [See "Word" in Dictionary] ' +
-  'replacing "Word" with the specific sign you are explaining. ' +
-  'You are powered by Gemini, a large language model from Google.';
+  'You are an expert, high-intelligence assistant for the Ghana Sign Language (GSL) translation app. ' +
+  'You possess deep knowledge of GSL grammar, culture, and signs. ' +
+  'Your goal is to provide instantaneous, clear, and actionable advice to help users bridge the gap between spoken language and GSL. ' +
+  'When explaining a sign, focus on the 5 parameters: Handshape, Location, Movement, Orientation, and Non-manual markers (facial expressions). ' +
+  'Always include a reference at the end of your response in this exact format: [See "Word" in Dictionary] ' +
+  'if the word exists in the GSL context. Keep your tone encouraging and professional.';
 
 @Injectable({providedIn: 'root'})
 export class GeminiChatService {
@@ -60,7 +59,7 @@ export class GeminiChatService {
     if (this.isOffline) {
       return this.handleOfflineRequest(request);
     }
-    const model = 'gemini-flash-latest';
+    const model = 'gemini-2.0-flash';
     const apiKey = environment.geminiApiKey;
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
 

@@ -39,13 +39,13 @@ export class SignWritingTranslationService {
     return modelRegistry;
   }
 
-  async loadOfflineModel(direction: TranslationDirection, from: string, to: string) {
-    const modelName = `${from}${to}`;
+  async loadOfflineModel(direction: TranslationDirection, fromLang: string, toLang: string) {
+    const modelName = `${fromLang}${toLang}`;
     if (this.loadedModel === modelName) {
       return;
     }
 
-    const modelPath = `models/browsermt/${direction}/${from}-${to}/`;
+    const modelPath = `models/browsermt/${direction}/${fromLang}-${toLang}/`;
     const state = this.assets.stat(modelPath);
     if (!state.exists) {
       throw new Error(`Model '${modelPath}' not found locally`);
@@ -54,19 +54,19 @@ export class SignWritingTranslationService {
     const modelRegistry = {[modelName]: await this.createModelRegistry(modelPath)} as ModelRegistry;
 
     await this.initWorker();
-    await this.worker.loadModel(from, to, modelRegistry);
+    await this.worker.loadModel(fromLang, toLang, modelRegistry);
     this.loadedModel = modelName;
   }
 
   async translateOffline(
     direction: TranslationDirection,
     text: string,
-    from: string,
-    to: string
+    fromLang: string,
+    toLang: string
   ): Promise<TranslationResponse> {
-    await this.loadOfflineModel(direction, from, to);
+    await this.loadOfflineModel(direction, fromLang, toLang);
 
-    let translations = await this.worker.translate(from, to, [text], [{isHtml: false}]);
+    let translations = await this.worker.translate(fromLang, toLang, [text], [{isHtml: false}]);
     if (typeof translations[0] === 'string') {
       translations = translations.map((t: any) => ({text: t}));
     }
@@ -80,19 +80,19 @@ export class SignWritingTranslationService {
     direction: TranslationDirection,
     text: string,
     sentences: string[],
-    from: string,
-    to: string
+    fromLang: string,
+    toLang: string
   ): Observable<TranslationResponse> {
     // TODO use the new API (when bergamot model is trained)
-    // const query = new URLSearchParams({from, to, text});
+    // const query = new URLSearchParams({from: fromLang, to: toLang, text});
     // return this.http.get<TranslationResponse>(`https://sign.mt/api/${direction}?${query}`);'
 
     const url = `${environment.signMtBase}/spoken_text_to_signwriting`;
     const body = {
       data: {
         texts: sentences.map(s => s.trim()),
-        spoken_language: from,
-        signed_language: to,
+        spoken_language: fromLang,
+        signed_language: toLang,
       },
     };
 
@@ -103,9 +103,20 @@ export class SignWritingTranslationService {
       };
     }
 
-    return this.http
-      .post<SpokenToSignWritingResponse>(url, body)
-      .pipe(map(res => ({text: res.result.output.join(' ')})));
+    return from(
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch signwriting');
+          return res.json();
+        })
+        .then((res: SpokenToSignWritingResponse) => ({text: res.result.output.join(' ')}))
+    );
   }
 
   translateSpokenToSignWriting(

@@ -41,22 +41,10 @@ export class AnimationComponent extends BaseComponent implements AfterViewInit {
   }
 
   async ngAfterViewInit(): Promise<void> {
-    await Promise.all([this.three.load(), this.attach3DCharacter()]);
-
-    // Wait for element to be defined
-    if (!customElements.get('model-viewer')) {
-      await customElements.whenDefined('model-viewer');
-    }
-
-    const ModelViewerElement = customElements.get('model-viewer');
-    // Always render the highest quality
-    (ModelViewerElement as any).minimumRenderScale = 1; // TODO investigate why type is not set
-
-    let i = 0;
     const el = this.modelViewerEl().nativeElement;
-
     this.applyStyle(el);
 
+    let i = 0;
     el.addEventListener('load', () => {
       const scene = this.getScene();
 
@@ -85,6 +73,17 @@ export class AnimationComponent extends BaseComponent implements AfterViewInit {
         )
         .subscribe();
     });
+
+    await Promise.all([this.three.load(), this.attach3DCharacter()]);
+
+    // Wait for element to be defined
+    if (!customElements.get('model-viewer')) {
+      await customElements.whenDefined('model-viewer');
+    }
+
+    const ModelViewerElement = customElements.get('model-viewer');
+    // Always render the highest quality
+    (ModelViewerElement as any).minimumRenderScale = 1; // TODO investigate why type is not set
   }
 
   getScene() {

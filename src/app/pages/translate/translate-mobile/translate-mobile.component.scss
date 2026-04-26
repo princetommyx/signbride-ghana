@@ -1,19 +1,15 @@
 app-signed-language-output {
   display: block;
   width: 100%;
-  height: 100%;
+  // height: 100%; - Removed to let children determine height or use min-height
 }
 
 ion-footer {
   --background: transparent;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 12px 16px env(safe-area-inset-bottom);
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
+  background: transparent;
+  border-top: none;
+  padding: 0;
+  transition: all 0.3s ease;
 
   .mobile-footer-inner {
     max-width: 800px;
@@ -21,30 +17,35 @@ ion-footer {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 16px 16px calc(12px + env(safe-area-inset-bottom));
+    border-radius: 32px 32px 0 0;
+    box-shadow: 0 -8px 32px rgba(31, 38, 135, 0.1);
   }
 }
 
 .mobile-toolbar {
-  --background: rgba(255, 255, 255, 0.7);
+  --background: rgba(255, 255, 255, 0.3);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   --padding-start: 16px;
   --padding-end: 8px;
 
-  .theme-toggle {
-    --color: #4f46e5;
-    margin-right: 8px;
+  ion-menu-button {
+    --color: #ffffff;
   }
 }
 
 .mobile-shell {
-  background: radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.1), transparent 50%), #f8fafc;
   display: flex;
   flex-direction: column;
   min-height: 100%;
   overflow: hidden;
-  padding: 16px;
+  padding: 20px;
   position: relative;
 }
 
@@ -57,34 +58,38 @@ ion-footer {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 
     .dot {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       background: #10b981;
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
       animation: pulseGreen 2s infinite;
     }
 
     .text {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #64748b;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
     }
   }
 
   h2 {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.75rem;
+    font-size: 2.2rem;
     font-weight: 800;
-    color: #0f172a;
     margin: 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -95,7 +100,7 @@ ion-footer {
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
   }
   100% {
     transform: scale(0.95);
@@ -103,91 +108,24 @@ ion-footer {
   }
 }
 
-.mobile-aura {
-  border-radius: 50%;
-  filter: blur(80px);
-  position: absolute;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.5;
-  mix-blend-mode: soft-light;
-}
-
-.mobile-aura-a {
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.4), transparent 70%);
-  width: 300px;
-  height: 300px;
-  top: -50px;
-  left: -50px;
-  animation: floatMobileA 15s ease-in-out infinite;
-}
-
-.mobile-aura-b {
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent 70%);
-  width: 250px;
-  height: 250px;
-  bottom: 20%;
-  right: -50px;
-  animation: floatMobileB 18s ease-in-out infinite;
-}
-
-@keyframes floatMobileA {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(20px, 30px) scale(1.1);
-  }
-}
-
-@keyframes floatMobileB {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-30px, -20px) scale(1.2);
-  }
-}
-
 .mobile-stage {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  min-height: 0;
-  overflow: visible; // changed from hidden so smart tips below avatar are not clipped
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 40px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  min-height: 400px; // Larger stage for better visibility
+  overflow: hidden;
   position: relative;
   width: 100%;
   z-index: 1;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #4f46e5, #8b5cf6, #06b6d4);
-    z-index: 5;
-    border-radius: 24px 24px 0 0;
-  }
-}
-
-ion-footer {
-  --background: transparent;
-
-  .mobile-footer-inner {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    padding: 12px 16px;
-    border-radius: 20px 20px 0 0;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes pulseMobileA {

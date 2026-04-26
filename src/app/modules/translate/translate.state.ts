@@ -19,7 +19,7 @@ import {
 } from './translate.actions';
 import {TranslationService} from './translate.service';
 import {SetVideo, StartCamera, StopVideo} from '../../core/modules/ngxs/store/video/video.actions';
-import {catchError, EMPTY, filter, Observable, of} from 'rxjs';
+import {catchError, combineLatest, EMPTY, filter, Observable, of} from 'rxjs';
 import {PoseViewerSetting} from '../settings/settings.state';
 import {tap} from 'rxjs/operators';
 import {Capacitor} from '@capacitor/core';
@@ -310,20 +310,38 @@ export class TranslateState implements NgxsOnInit {
         patchState({signedLanguagePose: null, signWriting: []});
       } else {
         const actualSpokenLanguage = spokenLanguage || detectedLanguage;
-        const path = this.service.translateSpokenToSigned(
+        const pose$ = this.service.translateSpokenToSigned(
           trimmedSpokenLanguageText,
           actualSpokenLanguage,
           signedLanguage
         );
-        patchState({signedLanguagePose: path});
-        return this.swService
-          .translateSpokenToSignWriting(
-            trimmedSpokenLanguageText,
-            spokenLanguageSentences,
-            actualSpokenLanguage,
-            signedLanguage
-          )
-          .pipe(tap(({text}) => dispatch(new SetSignWritingText(text.split(' ')))));
+
+        const sw$ = this.swService.translateSpokenToSignWriting(
+          trimmedSpokenLanguageText,
+          spokenLanguageSentences,
+          actualSpokenLanguage,
+          signedLanguage
+        );
+
+        return combineLatest([
+          pose$.pipe(
+            catchError(e => {
+              console.error('Pose fetch failed', e);
+              return of(null);
+            })
+          ),
+          sw$.pipe(
+            catchError(e => {
+              console.error('SignWriting fetch failed', e);
+              return of({text: ''});
+            })
+          ),
+        ]).pipe(
+          tap(([poseUrl, {text}]) => {
+            patchState({signedLanguagePose: poseUrl});
+            dispatch(new SetSignWritingText(text.split(' ')));
+          })
+        );
       }
     }
 

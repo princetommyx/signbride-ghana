@@ -14,7 +14,7 @@ export interface GSLTip {
 export class SmartTipsService {
   private http = inject(HttpClient);
   private apiKey = environment.geminiApiKey;
-  private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+  private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`;
 
   private cache = new Map<string, GSLTip[]>();
 
@@ -24,14 +24,14 @@ export class SmartTipsService {
 
     const prompt = `
       You are an expert instructor in Ghana Sign Language (GSL). 
-      For the following English text, provide a detailed but concise signing tip for each word.
-      Focus on describing:
-      1. The Handshape (e.g., "Open palm", "Fist", "Pointed finger")
-      2. The Orientation (e.g., "Palm facing you", "Palm facing out")
-      3. The Movement (e.g., "Move in a circle", "Tap your chin twice")
+      For the following English text, provide a highly descriptive signing tip for each word as it is performed by a 3D avatar.
+      Focus on synchronized guidance:
+      1. Handshape & Orientation: Specify exactly how the hands should look.
+      2. Precise Movement: Describe the path the hands take.
+      3. Timing: Mention if the sign is quick, slow, or repetitive.
       
       Format the response as a JSON array of objects with "word" and "tip" fields.
-      Keep each tip to one clear, descriptive sentence.
+      Keep each tip concise but informative, suitable for a "live" UI overlay.
       
       Text: "${text}"
     `;

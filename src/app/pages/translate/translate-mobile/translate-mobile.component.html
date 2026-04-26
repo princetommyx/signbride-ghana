@@ -39,8 +39,8 @@
       <h2>{{ (spokenToSigned$ | async) ? 'Translate to GSL' : 'Interpret to Text' }}</h2>
     </div>
 
-    <section class="mobile-stage" [class.video-stage]="!spokenToSigned">
-      @if (spokenToSigned) {
+    <section class="mobile-stage" [class.video-stage]="!(spokenToSigned$ | async)">
+      @if (spokenToSigned$ | async) {
         <app-signed-language-output />
       } @else {
         <app-video [displayControls]="false" [displayFps]="false" />
@@ -50,9 +50,9 @@
 </ion-content>
 
 <!-- Footer with input and submit button -->
-<ion-footer [class.signed-to-spoken]="!spokenToSigned">
+<ion-footer [class.signed-to-spoken]="!(spokenToSigned$ | async)">
   <div class="mobile-footer-inner">
-    @if (spokenToSigned) {
+    @if (spokenToSigned$ | async) {
       <!-- Compact smart tips bar — always visible above input, never pushed off screen -->
       <app-smart-tips [compact]="true" />
       <app-spoken-language-input [isMobile]="true" />

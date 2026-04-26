@@ -3,58 +3,67 @@
 }
 
 ion-card {
-  margin: 10px 0;
-  --background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin: 12px 0;
+  --background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
 
   ion-card-title {
-    font-size: 1.1em;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #4f46e5;
+    font-family: 'Outfit', sans-serif;
   }
 
   ion-card-content {
-    font-size: 0.95em;
-    line-height: 1.4;
-    color: var(--ion-color-step-700);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #1e293b;
+    font-family: 'Inter', sans-serif;
   }
 }
 
-// Compact bar shown in the mobile footer — always visible, never pushed off-screen
 .smart-tip-bar {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(79, 70, 229, 0.08);
-  border: 1px solid rgba(79, 70, 229, 0.2);
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 100px;
-  padding: 6px 14px;
-  margin-bottom: 6px;
+  padding: 8px 18px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 
   .signing-label {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.7rem;
+    font-weight: 800;
     color: #4f46e5;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     flex-shrink: 0;
+    opacity: 0.8;
   }
 
   .signing-word {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #1e1b4b;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #0f172a;
     flex-shrink: 0;
   }
 
   .signing-tip {
-    font-size: 0.78rem;
-    color: #475569;
+    font-size: 0.85rem;
+    color: #334155;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
+    font-weight: 500;
   }
 }

@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -54,9 +54,19 @@ export class TranslationService {
       .pipe(map(response => response.result.description));
   }
 
-  translateSpokenToSigned(text: string, spokenLanguage: string, signedLanguage: string): string {
-    // Works locally via Angular proxy (proxy.conf.json) and uses absolute URL on production
+  translateSpokenToSigned(text: string, spokenLanguage: string, signedLanguage: string): Observable<string> {
     const base = environment.signMtBase;
-    return `${base}/spoken_text_to_signed_pose?text=${encodeURIComponent(text)}&spoken=${spokenLanguage}&signed=${signedLanguage}`;
+    const url = `${base}/spoken_text_to_signed_pose?text=${encodeURIComponent(text)}&spoken=${spokenLanguage}&signed=${signedLanguage}`;
+
+    // Use native fetch to be absolutely sure no Angular headers (like App-Check) are added.
+    // This avoids CORS preflight failures on production.
+    return from(
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch pose');
+          return res.blob();
+        })
+        .then(blob => URL.createObjectURL(blob))
+    );
   }
 }
