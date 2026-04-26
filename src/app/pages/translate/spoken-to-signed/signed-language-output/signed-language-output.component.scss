@@ -5,6 +5,13 @@
   background-color: transparent;
   position: relative;
   aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+
+  // On mobile: remove fixed aspect-ratio so smart tips can flow below
+  @media (max-width: 768px) {
+    aspect-ratio: unset;
+  }
 
   &::before {
     content: '';
@@ -18,10 +25,18 @@
   }
 }
 
-app-skeleton-pose-viewer {
+app-skeleton-pose-viewer,
+app-avatar-pose-viewer,
+app-human-pose-viewer {
   height: 100%;
   display: flex;
   align-items: center;
+
+  // On mobile: fix the viewer to a set height so smart tips appear below it
+  @media (max-width: 768px) {
+    height: 300px;
+    flex-shrink: 0;
+  }
 }
 
 video {
@@ -87,22 +102,6 @@ video {
 app-smart-tips {
   display: block;
   width: 100%;
-
-  @media (max-width: 768px) {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    padding: 0 16px 16px;
-    pointer-events: none; // Allow clicks to pass through to the video if needed
-
-    ion-card {
-      margin: 0;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
-      pointer-events: auto;
-    }
-  }
+  // On mobile, smart tips sit naturally in the document flow below the viewer.
+  // No absolute positioning — removed to prevent overlapping the avatar.
 }
