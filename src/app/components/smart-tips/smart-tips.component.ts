@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {AsyncPipe, CommonModule} from '@angular/common';
 import {Store} from '@ngxs/store';
 import {combineLatest, Observable, of} from 'rxjs';
@@ -49,6 +49,9 @@ export class SmartTipsComponent {
   private store = inject(Store);
   private playback = inject(PosePlaybackService);
   private tipsService = inject(SmartTipsService);
+
+  /** When true, renders as a compact one-line pill bar (for mobile footer) */
+  @Input() compact = false;
 
   private text$: Observable<string> = this.store.select(state => {
     const normalized = state.translate?.normalizedSpokenLanguageText;

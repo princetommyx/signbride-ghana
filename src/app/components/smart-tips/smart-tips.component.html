@@ -1,12 +1,22 @@
 @if (message$ | async; as message) {
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        Signing: <strong>{{ message.word | titlecase }}</strong>
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      {{ message.tip }}
-    </ion-card-content>
-  </ion-card>
+  @if (compact) {
+    <!-- Compact mode: slim pill shown in the mobile footer -->
+    <div class="smart-tip-bar">
+      <span class="signing-label">Signing:</span>
+      <strong class="signing-word">{{ message.word | titlecase }}</strong>
+      <span class="signing-tip">{{ message.tip }}</span>
+    </div>
+  } @else {
+    <!-- Full card mode for desktop/tablet -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          Signing: <strong>{{ message.word | titlecase }}</strong>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ message.tip }}
+      </ion-card-content>
+    </ion-card>
+  }
 }

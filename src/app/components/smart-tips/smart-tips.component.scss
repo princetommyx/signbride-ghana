@@ -20,3 +20,41 @@ ion-card {
     color: var(--ion-color-step-700);
   }
 }
+
+// Compact bar shown in the mobile footer — always visible, never pushed off-screen
+.smart-tip-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(79, 70, 229, 0.08);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 100px;
+  padding: 6px 14px;
+  margin-bottom: 6px;
+  overflow: hidden;
+
+  .signing-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4f46e5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .signing-word {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1e1b4b;
+    flex-shrink: 0;
+  }
+
+  .signing-tip {
+    font-size: 0.78rem;
+    color: #475569;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+}

@@ -23,6 +23,7 @@ import {SignedLanguageInputComponent} from '../signed-to-spoken/signed-language-
 import {LanguageSelectorsComponent} from '../language-selectors/language-selectors.component';
 import {VideoModule} from '../../../components/video/video.module';
 import {ChatbotWidgetComponent} from '../chatbot/chatbot-widget.component';
+import {SmartTipsComponent} from '../../../components/smart-tips/smart-tips.component';
 import {addIcons} from 'ionicons';
 import {moon, sunny} from 'ionicons/icons';
 import {Store} from '@ngxs/store';
@@ -57,6 +58,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
     VideoModule,
     LanguageSelectorsComponent,
     ChatbotWidgetComponent,
+    SmartTipsComponent,
     AsyncPipe,
     RouterLink,
     TranslocoPipe,

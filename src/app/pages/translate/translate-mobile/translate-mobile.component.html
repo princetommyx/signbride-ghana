@@ -53,6 +53,8 @@
 <ion-footer [class.signed-to-spoken]="!spokenToSigned">
   <div class="mobile-footer-inner">
     @if (spokenToSigned) {
+      <!-- Compact smart tips bar — always visible above input, never pushed off screen -->
+      <app-smart-tips [compact]="true" />
       <app-spoken-language-input [isMobile]="true" />
     } @else {
       <app-signed-language-input />
