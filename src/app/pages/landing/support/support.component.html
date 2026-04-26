@@ -63,9 +63,12 @@
               placeholder="How can we help you?"></textarea>
           </div>
 
-          <ion-button expand="block" type="submit" [disabled]="!name || !email || !message">
-            Send Message
-            <ion-icon slot="end" name="send-outline"></ion-icon>
+          <ion-button expand="block" type="submit" [disabled]="!name || !email || !message || isSubmitting">
+            <ng-container *ngIf="!isSubmitting">
+              Send Message
+              <ion-icon slot="end" name="send-outline"></ion-icon>
+            </ng-container>
+            <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
           </ion-button>
         </form>
       </div>

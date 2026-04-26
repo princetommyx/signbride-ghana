@@ -20,6 +20,13 @@ export interface SettingsStateModel {
   poseViewer: PoseViewerSetting;
 
   theme: 'light' | 'dark' | 'system';
+
+  fontSize: 'small' | 'medium' | 'large';
+  highContrast: boolean;
+  hapticFeedback: boolean;
+  vibrateOnSign: boolean;
+  visualAlerts: boolean;
+  notifications: boolean;
 }
 
 const initialState: SettingsStateModel = {
@@ -38,16 +45,24 @@ const initialState: SettingsStateModel = {
   appearance: '#ffffff',
 
   theme: 'light',
+
+  fontSize: 'medium',
+  highContrast: false,
+  hapticFeedback: true,
+  vibrateOnSign: true,
+  visualAlerts: true,
+  notifications: true,
 };
 
 @Injectable()
 @State<SettingsStateModel>({
   name: 'settings',
-  defaults: initialState,
+  defaults: JSON.parse(globalThis.localStorage?.getItem('app-settings') || 'null') || initialState,
 })
 export class SettingsState {
   @Action(SetSetting)
-  setSetting({patchState}: StateContext<SettingsStateModel>, {setting, value}: SetSetting): void {
+  setSetting({patchState, getState}: StateContext<SettingsStateModel>, {setting, value}: SetSetting): void {
     patchState({[setting]: value});
+    globalThis.localStorage?.setItem('app-settings', JSON.stringify(getState()));
   }
 }

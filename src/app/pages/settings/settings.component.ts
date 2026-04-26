@@ -1,6 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {takeUntil, tap} from 'rxjs/operators';
+import {SettingsStateModel} from '../../modules/settings/settings.state';
+import {SetSetting} from '../../modules/settings/settings.actions';
+import {BaseComponent} from '../../components/base/base.component';
 import {
   IonContent,
   IonHeader,
@@ -46,15 +52,15 @@ import {
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit {
-  fontSize: string = 'medium';
-  highContrast: boolean = false;
-  hapticFeedback: boolean = true;
-  vibrateOnSign: boolean = true;
-  visualAlerts: boolean = true;
-  notifications: boolean = true;
+export class SettingsComponent extends BaseComponent implements OnInit {
+  private store = inject(Store);
+
+  settings$!: Observable<SettingsStateModel>;
+  currentSettings!: SettingsStateModel;
 
   constructor() {
+    super();
+    this.settings$ = this.store.select<SettingsStateModel>(state => state.settings);
     addIcons({
       accessibilityOutline,
       colorPaletteOutline,
@@ -65,41 +71,28 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Load settings from local storage if available
-    const savedSettings = localStorage.getItem('app-settings');
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
-      this.fontSize = settings.fontSize || 'medium';
-      this.highContrast = settings.highContrast || false;
-      this.hapticFeedback = settings.hapticFeedback || true;
-      this.vibrateOnSign = settings.vibrateOnSign || true;
-      this.visualAlerts = settings.visualAlerts || true;
-      this.notifications = settings.notifications || true;
-    }
+    this.settings$
+      .pipe(
+        tap(settings => {
+          this.currentSettings = settings;
+          this.applyAccessibilityChanges(settings);
+        }),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe();
   }
 
-  saveSettings() {
-    const settings = {
-      fontSize: this.fontSize,
-      highContrast: this.highContrast,
-      hapticFeedback: this.hapticFeedback,
-      vibrateOnSign: this.vibrateOnSign,
-      visualAlerts: this.visualAlerts,
-      notifications: this.notifications,
-    };
-    localStorage.setItem('app-settings', JSON.stringify(settings));
-    this.applyAccessibilityChanges();
+  updateSetting(setting: keyof SettingsStateModel, value: any) {
+    this.store.dispatch(new SetSetting(setting, value));
   }
 
-  applyAccessibilityChanges() {
-    // Apply font size
-    document.documentElement.style.setProperty(
-      '--app-font-scale',
-      this.fontSize === 'small' ? '0.9' : this.fontSize === 'large' ? '1.2' : '1.0'
-    );
+  applyAccessibilityChanges(settings: SettingsStateModel) {
+    // Apply font size scale
+    const scale = settings.fontSize === 'small' ? '0.9' : settings.fontSize === 'large' ? '1.25' : '1.0';
+    document.documentElement.style.setProperty('--app-font-scale', scale);
 
     // Apply high contrast
-    if (this.highContrast) {
+    if (settings.highContrast) {
       document.body.classList.add('high-contrast');
     } else {
       document.body.classList.remove('high-contrast');

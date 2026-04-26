@@ -1,18 +1,22 @@
-<div class="settings-wrapper">
+<div class="settings-wrapper" *ngIf="currentSettings">
   <div class="settings-container">
-    <div class="settings-section section-visual">
+    <div class="settings-section section-visual glass-panel">
       <div class="section-header">
         <ion-icon name="accessibility-outline"></ion-icon>
         <h2>Visual Assistance</h2>
       </div>
 
-      <ion-list lines="full">
+      <ion-list lines="none">
         <ion-item>
           <ion-label>
             <h3>Text Size</h3>
             <p>Adjust the platform font size for better readability</p>
           </ion-label>
-          <ion-select [(ngModel)]="fontSize" (ionChange)="saveSettings()" interface="popover">
+          <ion-select
+            [ngModel]="currentSettings.fontSize"
+            (ionChange)="updateSetting('fontSize', $event.detail.value)"
+            interface="popover"
+            class="custom-select">
             <ion-select-option value="small">Small</ion-select-option>
             <ion-select-option value="medium">Medium</ion-select-option>
             <ion-select-option value="large">Large</ion-select-option>
@@ -24,7 +28,9 @@
             <h3>High Contrast</h3>
             <p>Increase color contrast for better visibility</p>
           </ion-label>
-          <ion-toggle [(ngModel)]="highContrast" (ionChange)="saveSettings()"></ion-toggle>
+          <ion-toggle
+            [ngModel]="currentSettings.highContrast"
+            (ionChange)="updateSetting('highContrast', $event.detail.checked)"></ion-toggle>
         </ion-item>
 
         <ion-item>
@@ -32,24 +38,28 @@
             <h3>Visual Alerts</h3>
             <p>Use flashes or visual cues for notifications</p>
           </ion-label>
-          <ion-toggle [(ngModel)]="visualAlerts" (ionChange)="saveSettings()"></ion-toggle>
+          <ion-toggle
+            [ngModel]="currentSettings.visualAlerts"
+            (ionChange)="updateSetting('visualAlerts', $event.detail.checked)"></ion-toggle>
         </ion-item>
       </ion-list>
     </div>
 
-    <div class="settings-section section-feedback">
+    <div class="settings-section section-feedback glass-panel">
       <div class="section-header">
         <ion-icon name="megaphone-outline"></ion-icon>
         <h2>Sign Feedback</h2>
       </div>
 
-      <ion-list lines="full">
+      <ion-list lines="none">
         <ion-item>
           <ion-label>
             <h3>Haptic Feedback</h3>
             <p>Vibrate device when a sign is recognized</p>
           </ion-label>
-          <ion-toggle [(ngModel)]="hapticFeedback" (ionChange)="saveSettings()"></ion-toggle>
+          <ion-toggle
+            [ngModel]="currentSettings.hapticFeedback"
+            (ionChange)="updateSetting('hapticFeedback', $event.detail.checked)"></ion-toggle>
         </ion-item>
 
         <ion-item>
@@ -57,24 +67,28 @@
             <h3>Sign Validation Vibrate</h3>
             <p>Confirm correct sign execution via vibration</p>
           </ion-label>
-          <ion-toggle [(ngModel)]="vibrateOnSign" (ionChange)="saveSettings()"></ion-toggle>
+          <ion-toggle
+            [ngModel]="currentSettings.vibrateOnSign"
+            (ionChange)="updateSetting('vibrateOnSign', $event.detail.checked)"></ion-toggle>
         </ion-item>
       </ion-list>
     </div>
 
-    <div class="settings-section section-general">
+    <div class="settings-section section-general glass-panel">
       <div class="section-header">
         <ion-icon name="notifications-outline"></ion-icon>
         <h2>General</h2>
       </div>
 
-      <ion-list lines="full">
+      <ion-list lines="none">
         <ion-item>
           <ion-label>
             <h3>Push Notifications</h3>
             <p>Get updates on new dictionary entries</p>
           </ion-label>
-          <ion-toggle [(ngModel)]="notifications" (ionChange)="saveSettings()"></ion-toggle>
+          <ion-toggle
+            [ngModel]="currentSettings.notifications"
+            (ionChange)="updateSetting('notifications', $event.detail.checked)"></ion-toggle>
         </ion-item>
       </ion-list>
     </div>
