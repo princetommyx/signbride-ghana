@@ -15,7 +15,8 @@ interface GSLSign {
   category: string;
   source: string;
   image?: string;
-  pageNumber?: number; // Added for the new UI
+  pageNumber?: number;
+  variants?: string[]; // Multiple sign variants for the same word
 }
 
 @Component({
@@ -95,11 +96,30 @@ export class DictionaryComponent implements OnInit {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.http.get<GSLSign[]>('assets/docs/gsl-dictionary.json').subscribe(data => {
-        // Add mock page numbers for the UI as seen in the request image
-        this.allSigns = data.map((sign, index) => ({
-          ...sign,
-          pageNumber: Math.floor(Math.random() * 400) + 1,
-        }));
+        // Deduplicate: merge entries with the same word (case-insensitive) into one,
+        // keeping all unique descriptions as variants.
+        const mergeMap = new Map<string, GSLSign & {variants: string[]}>();
+
+        for (const sign of data) {
+          const key = sign.word.trim().toLowerCase();
+          if (mergeMap.has(key)) {
+            const existing = mergeMap.get(key)!;
+            if (sign.description && !existing.variants.includes(sign.description)) {
+              existing.variants.push(sign.description);
+              // Append variant descriptions so search still works across all of them
+              existing.description = existing.variants.join(' | ');
+            }
+          } else {
+            mergeMap.set(key, {
+              ...sign,
+              word: sign.word.trim(),
+              pageNumber: Math.floor(Math.random() * 400) + 1,
+              variants: sign.description ? [sign.description] : [],
+            });
+          }
+        }
+
+        this.allSigns = Array.from(mergeMap.values());
 
         this.route.queryParams.subscribe(params => {
           if (params['search']) {

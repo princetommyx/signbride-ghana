@@ -56,7 +56,7 @@
         <div class="word-card" *ngFor="let sign of signs | slice: 0 : displayedLimit">
           <div class="card-top">
             <h3 class="word-title">{{ sign.word | uppercase }}</h3>
-            <span class="variant-badge">1 VAR</span>
+            <span class="variant-badge">{{ sign.variants?.length || 1 }} VAR</span>
           </div>
           <div class="card-bottom">
             <div class="page-ref">
