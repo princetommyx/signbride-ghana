@@ -12,27 +12,26 @@
     (timeupdate)="onVideoTimeUpdate($event)"
     (click)="playVideoIfPaused($event)"></video>
 } @else {
-  @if ((poseViewerSetting$ | async) === 'avatar') {
-    @if (pose$ | async; as pose) {
-      <app-avatar-pose-viewer [src]="pose" />
-    }
-  }
-
-  @if ((poseViewerSetting$ | async) === 'pose') {
-    @if (pose$ | async; as pose) {
-      <app-skeleton-pose-viewer [src]="pose" />
-    }
-  }
-
-  @if ((poseViewerSetting$ | async) === 'person') {
-    @if (pose$ | async; as pose) {
-      <app-human-pose-viewer [src]="pose" />
+  @if (pose$ | async; as pose) {
+    @switch (poseViewerSetting$ | async) {
+      @case ('avatar') {
+        <app-avatar-pose-viewer [src]="pose" />
+      }
+      @case ('person') {
+        <app-human-pose-viewer [src]="pose" />
+      }
+      @default {
+        <!-- 'pose' is the default skeleton viewer -->
+        <app-skeleton-pose-viewer [src]="pose" />
+      }
     }
   }
 }
-@if (pose$ | async; as pose) {
+
+@if (pose$ | async) {
   <app-smart-tips></app-smart-tips>
 }
+
 @if (pose$ | async; as pose) {
   <div class="actions-row">
     @if (videoUrl) {
