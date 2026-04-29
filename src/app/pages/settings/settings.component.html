@@ -25,6 +25,22 @@
 
         <ion-item>
           <ion-label>
+            <h3>Theme</h3>
+            <p>Toggle between Light and Dark mode</p>
+          </ion-label>
+          <ion-select
+            [ngModel]="currentSettings.theme"
+            (ionChange)="updateSetting('theme', $event.detail.value)"
+            interface="popover"
+            class="custom-select">
+            <ion-select-option value="light">Light Mode</ion-select-option>
+            <ion-select-option value="dark">Dark Mode</ion-select-option>
+            <ion-select-option value="system">System Default</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
             <h3>High Contrast</h3>
             <p>Increase color contrast for better visibility</p>
           </ion-label>

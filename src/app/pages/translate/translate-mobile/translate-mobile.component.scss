@@ -17,10 +17,10 @@ ion-footer {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.45);
+    background: var(--app-glass-background);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid var(--app-glass-border);
     padding: 16px 16px calc(12px + env(safe-area-inset-bottom));
     border-radius: 32px 32px 0 0;
     box-shadow: 0 -8px 32px rgba(31, 38, 135, 0.1);
@@ -28,12 +28,13 @@ ion-footer {
 }
 
 .mobile-toolbar {
-  --background: rgba(255, 255, 255, 0.3);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  --background: var(--app-glass-background);
+  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(25px);
+  border-bottom: 1px solid var(--app-glass-border);
   --padding-start: 16px;
   --padding-end: 8px;
+  z-index: 20;
 
   ion-menu-button {
     --color: #ffffff;
@@ -109,14 +110,14 @@ ion-footer {
 }
 
 .mobile-stage {
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--app-glass-background);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--app-glass-border);
   border-radius: 40px;
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+    inset 0 0 0 1px var(--app-glass-border);
   min-height: 400px; // Larger stage for better visibility
   overflow: hidden;
   position: relative;

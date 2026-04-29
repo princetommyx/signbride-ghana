@@ -14,6 +14,7 @@ import {ConsentStatus, ConsentType, FirebaseAnalytics} from '@capacitor-firebase
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Store} from '@ngxs/store';
 import {ChatbotWidgetComponent} from './pages/translate/chatbot/chatbot-widget.component';
+import {SettingsState, SettingsStateModel} from './modules/settings/settings.state';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ export class AppComponent implements AfterViewInit {
     this.checkURLEmbedding();
     this.updateToolbarColor();
     this.setPageKeyboardClass();
+    this.listenThemeChange();
   }
 
   private store = inject(Store);
@@ -234,5 +236,23 @@ export class AppComponent implements AfterViewInit {
     const className = 'keyboard-is-open';
     Keyboard.addListener('keyboardWillShow', () => html.classList.add(className));
     Keyboard.addListener('keyboardWillHide', () => html.classList.remove(className));
+  }
+
+  listenThemeChange() {
+    this.store
+      .select((state: any) => state.settings.theme)
+      .pipe(
+        tap(theme => {
+          const body = document.body;
+          body.classList.remove('light', 'dark');
+          if (theme === 'system') {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            body.classList.add(isDark ? 'dark' : 'light');
+          } else {
+            body.classList.add(theme);
+          }
+        })
+      )
+      .subscribe();
   }
 }

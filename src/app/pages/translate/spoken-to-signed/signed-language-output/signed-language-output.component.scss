@@ -17,11 +17,11 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--app-glass-background);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     z-index: -1;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--app-glass-border);
   }
 }
 
@@ -62,7 +62,7 @@ video {
   .action-button {
     --border-radius: 16px;
     --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --background: rgba(255, 255, 255, 0.8);
+    --background: var(--app-glass-background);
     --color: var(--ion-color-primary);
     backdrop-filter: blur(10px);
     margin: 0;

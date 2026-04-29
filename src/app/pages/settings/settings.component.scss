@@ -19,13 +19,13 @@
 
   .settings-section {
     margin-bottom: 32px;
-    background: rgba(255, 255, 255, 0.45);
+    background: var(--app-glass-background);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-radius: 32px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    border: 1px solid var(--app-glass-border);
+    box-shadow: 0 8px 32px var(--app-glass-shadow);
     transition: transform 0.3s ease;
 
     &:hover {
@@ -51,7 +51,7 @@
         font-size: 1.5rem;
         font-weight: 800;
         letter-spacing: -0.02em;
-        color: #0f172a;
+        color: var(--ion-text-color);
         font-family: 'Outfit', sans-serif;
       }
     }
@@ -67,11 +67,11 @@
         --min-height: 100px;
         padding-top: 8px;
         padding-bottom: 8px;
-        --background: rgba(255, 255, 255, 0.3);
+        --background: var(--app-glass-background);
         --border-color: transparent;
         border-radius: 20px;
         margin: 0 8px 12px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid var(--app-glass-border);
 
         &:last-child {
           margin-bottom: 0;
@@ -82,12 +82,12 @@
             font-weight: 800;
             font-size: 1.2rem;
             margin-bottom: 8px;
-            color: #0f172a;
+            color: var(--ion-text-color);
             font-family: 'Outfit', sans-serif;
           }
           p {
             font-size: 0.95rem;
-            color: #475569;
+            color: var(--ion-text-color);
             line-height: 1.5;
             font-family: 'Inter', sans-serif;
             opacity: 0.9;

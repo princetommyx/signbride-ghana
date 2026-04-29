@@ -144,10 +144,10 @@
 
   #translation-card {
     @include anim.animate-scale-in(md3.$md3-duration-medium4, 0.1s);
-    background: rgba(255, 255, 255, 0.75);
+    background: var(--app-glass-background);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid var(--app-glass-border);
     border-radius: 40px;
     box-shadow:
       0 8px 32px 0 rgba(31, 38, 135, 0.2),
@@ -167,7 +167,11 @@
     }
 
     app-language-selectors {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid var(--app-divider-color);
+      position: relative;
+      z-index: 10;
+      background: var(--app-glass-background);
+      backdrop-filter: blur(12px);
     }
   }
 
