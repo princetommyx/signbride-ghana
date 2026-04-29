@@ -55,6 +55,11 @@ export class TranslationService {
   }
 
   translateSpokenToSigned(text: string, spokenLanguage: string, signedLanguage: string): Observable<string> {
+    // Backend expects 'ase' for Ghanaian Sign Language (GSL) poses
+    if (signedLanguage === 'gse' || signedLanguage === 'gsl') {
+      signedLanguage = 'ase';
+    }
+
     const base = environment.signMtBase;
     const url = `${base}/spoken_text_to_signed_pose?text=${encodeURIComponent(text)}&spoken=${spokenLanguage}&signed=${signedLanguage}`;
 

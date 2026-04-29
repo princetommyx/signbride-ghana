@@ -87,6 +87,11 @@ export class SignWritingTranslationService {
     // const query = new URLSearchParams({from: fromLang, to: toLang, text});
     // return this.http.get<TranslationResponse>(`https://sign.mt/api/${direction}?${query}`);'
 
+    // Backend expects 'ase' for Ghanaian Sign Language (GSL) SignWriting
+    if (toLang === 'gse' || toLang === 'gsl') {
+      toLang = 'ase';
+    }
+
     const url = `${environment.signMtBase}/spoken_text_to_signwriting`;
     const body = {
       data: {

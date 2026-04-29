@@ -1,17 +1,4 @@
-@if (videoUrl) {
-  <video
-    [src]="safeVideoUrl"
-    autoplay
-    loop
-    muted
-    playsinline
-    height="100%"
-    width="100%"
-    (error)="onVideoError($event)"
-    (loadedmetadata)="onVideoLoadedMetadata($event)"
-    (timeupdate)="onVideoTimeUpdate($event)"
-    (click)="playVideoIfPaused($event)"></video>
-} @else {
+@if (pose$ | async) {
   @switch (poseViewerSetting$ | async) {
     @case ('avatar') {
       <app-avatar-pose-viewer [src]="pose$ | async" />
@@ -24,11 +11,22 @@
       <app-skeleton-pose-viewer [src]="pose$ | async" />
     }
   }
+} @else if (videoUrl) {
+  <video
+    [src]="safeVideoUrl"
+    autoplay
+    loop
+    muted
+    playsinline
+    height="100%"
+    width="100%"
+    (error)="onVideoError($event)"
+    (loadedmetadata)="onVideoLoadedMetadata($event)"
+    (timeupdate)="onVideoTimeUpdate($event)"
+    (click)="playVideoIfPaused($event)"></video>
 }
 
-@if (pose$ | async) {
-  <app-smart-tips class="desktop-only-tips"></app-smart-tips>
-}
+<app-smart-tips class="desktop-only-tips"></app-smart-tips>
 
 @if (pose$ | async; as pose) {
   <div class="actions-row">

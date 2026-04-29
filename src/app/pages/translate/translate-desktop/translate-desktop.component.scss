@@ -70,6 +70,7 @@
     padding: 48px;
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
     position: relative;
+    z-index: 2;
     overflow: hidden;
 
     .eyebrow {
@@ -153,6 +154,7 @@
       0 20px 40px -10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
+    z-index: 1;
     transition:
       transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
       box-shadow 0.3s ease;
