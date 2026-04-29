@@ -1,4 +1,5 @@
-import {AfterViewInit, Component, inject} from '@angular/core';
+import {AfterViewInit, Component, inject, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {TranslocoService} from '@jsverse/transloco';
 import {filter, tap} from 'rxjs/operators';
 import {firstValueFrom} from 'rxjs';
@@ -32,12 +33,15 @@ export class AppComponent implements AfterViewInit {
   urlParams = getUrlParams();
 
   constructor() {
-    this.listenLanguageChange();
-    this.logRouterNavigation();
-    this.checkURLEmbedding();
-    this.updateToolbarColor();
-    this.setPageKeyboardClass();
-    this.listenThemeChange();
+    const platformId = inject(PLATFORM_ID);
+    if (isPlatformBrowser(platformId)) {
+      this.listenLanguageChange();
+      this.logRouterNavigation();
+      this.checkURLEmbedding();
+      this.updateToolbarColor();
+      this.setPageKeyboardClass();
+      this.listenThemeChange();
+    }
   }
 
   private store = inject(Store);

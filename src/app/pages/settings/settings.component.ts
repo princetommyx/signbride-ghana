@@ -1,5 +1,5 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
@@ -87,6 +87,11 @@ export class SettingsComponent extends BaseComponent implements OnInit {
   }
 
   applyAccessibilityChanges(settings: SettingsStateModel) {
+    const platformId = inject(PLATFORM_ID);
+    if (!isPlatformBrowser(platformId)) {
+      return;
+    }
+
     // Apply font size scale
     const scale = settings.fontSize === 'small' ? '0.9' : settings.fontSize === 'large' ? '1.25' : '1.0';
     document.documentElement.style.setProperty('--app-font-scale', scale);

@@ -1,5 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {isPlatformBrowser} from '@angular/common';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {AssetState} from '../../../core/services/assets/assets.service';
 import {MatTreeModule, MatTreeNestedDataSource} from '@angular/material/tree';
@@ -41,6 +42,11 @@ export class LicensesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const platformId = inject(PLATFORM_ID);
+    if (!isPlatformBrowser(platformId)) {
+      return;
+    }
+
     this.httpClient.get('/licenses.json').subscribe((licenses: any) => {
       this.updateTree(licenses);
     });

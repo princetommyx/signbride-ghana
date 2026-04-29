@@ -1,6 +1,7 @@
 {
   "version": 2,
   "framework": "angular",
+  "outputDirectory": "dist/sign-translate/browser",
   "cleanUrls": true,
   "headers": [
     {

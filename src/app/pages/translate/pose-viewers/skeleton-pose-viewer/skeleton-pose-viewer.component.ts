@@ -1,4 +1,5 @@
-import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, Input} from '@angular/core';
+import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, inject, Input, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {fromEvent} from 'rxjs';
 import {takeUntil, tap} from 'rxjs/operators';
 import {BasePoseViewerComponent} from '../pose-viewer.component';
@@ -87,9 +88,13 @@ export class SkeletonPoseViewerComponent extends BasePoseViewerComponent impleme
   }
 
   pauseInvisible() {
+    const platformId = inject(PLATFORM_ID);
+    if (!isPlatformBrowser(platformId)) {
+      return;
+    }
+
     const pose = this.poseEl().nativeElement;
 
-    // TODO: this should be on the current element, not document
     fromEvent(document, 'visibilitychange')
       .pipe(
         tap(async () => {
