@@ -50,6 +50,7 @@ export class AnimationState implements NgxsOnInit {
 
   @Action(AnimatePose)
   async animatePose({getState, patchState}: StateContext<AnimationStateModel>, {pose}: AnimatePose): Promise<void> {
+    await this.animation.loadModel();
     const tracks = this.animation.estimate([pose]);
     patchState({tracks});
   }

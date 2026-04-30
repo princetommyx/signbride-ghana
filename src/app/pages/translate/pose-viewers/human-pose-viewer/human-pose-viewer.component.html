@@ -1,13 +1,13 @@
 <pose-viewer
   #poseViewer
-  [attr.src]="src"
-  [attr.autoplay]="false"
-  [attr.loop]="false"
-  background="white"
-  color="#0f172a"
-  thickness="1"
-  width="256px"
-  height="256px"></pose-viewer>
+  [src]="src"
+  [autoplay]="false"
+  [loop]="false"
+  [background]="'white'"
+  [color]="'#0f172a'"
+  [thickness]="1"
+  [width]="'100%'"
+  [height]="'100%'"></pose-viewer>
 
 <ng-container *transloco="let t; read: 'translate.spoken-to-signed.progress-bars.human-pose-viewer'">
   @if (modelReady && !ready) {
