@@ -1,29 +1,31 @@
-@if (pose$ | async) {
-  @switch (poseViewerSetting$ | async) {
-    @case ('avatar') {
-      <app-avatar-pose-viewer [src]="pose$ | async" />
+@for (poseUrl of [pose$ | async]; track poseUrl) {
+  @if (poseUrl) {
+    @switch (poseViewerSetting$ | async) {
+      @case ('avatar') {
+        <app-avatar-pose-viewer [src]="poseUrl" />
+      }
+      @case ('person') {
+        <app-human-pose-viewer [src]="poseUrl" />
+      }
+      @default {
+        <!-- Default skeleton viewer -->
+        <app-skeleton-pose-viewer [src]="poseUrl" />
+      }
     }
-    @case ('person') {
-      <app-human-pose-viewer [src]="pose$ | async" />
-    }
-    @default {
-      <!-- Default skeleton viewer -->
-      <app-skeleton-pose-viewer [src]="pose$ | async" />
-    }
+  } @else if (videoUrl) {
+    <video
+      [src]="safeVideoUrl"
+      autoplay
+      loop
+      muted
+      playsinline
+      height="100%"
+      width="100%"
+      (error)="onVideoError($event)"
+      (loadedmetadata)="onVideoLoadedMetadata($event)"
+      (timeupdate)="onVideoTimeUpdate($event)"
+      (click)="playVideoIfPaused($event)"></video>
   }
-} @else if (videoUrl) {
-  <video
-    [src]="safeVideoUrl"
-    autoplay
-    loop
-    muted
-    playsinline
-    height="100%"
-    width="100%"
-    (error)="onVideoError($event)"
-    (loadedmetadata)="onVideoLoadedMetadata($event)"
-    (timeupdate)="onVideoTimeUpdate($event)"
-    (click)="playVideoIfPaused($event)"></video>
 }
 
 <app-smart-tips class="desktop-only-tips"></app-smart-tips>

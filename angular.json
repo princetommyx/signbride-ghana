@@ -52,6 +52,16 @@
                 "output": "./assets/fonts/signwriting/"
               },
               {
+                "glob": "**/*",
+                "input": "node_modules/pose-viewer/dist/pose-viewer/",
+                "output": "./assets/pose-viewer/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@sutton-signwriting/sgnw-components/dist/sgnw-components/",
+                "output": "./assets/sgnw-components/"
+              },
+              {
                 "glob": "**/*.json",
                 "input": "node_modules/@sign-mt/i18n/build/",
                 "output": "./assets/i18n/"
@@ -196,6 +206,16 @@
                 "glob": "*.ttf",
                 "input": "./node_modules/@sutton-signwriting/font-ttf/font",
                 "output": "./assets/fonts/signwriting/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/pose-viewer/dist/pose-viewer/",
+                "output": "./assets/pose-viewer/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@sutton-signwriting/sgnw-components/dist/sgnw-components/",
+                "output": "./assets/sgnw-components/"
               },
               {
                 "glob": "**/*.json",

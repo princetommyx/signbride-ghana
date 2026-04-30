@@ -1,14 +1,16 @@
-import {inject, Injectable} from '@angular/core';
-import {from, Observable} from 'rxjs';
+import {inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {from, Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {isPlatformBrowser} from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TranslationService {
   private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
   signedLanguages = [
     'ase', // Ghana Sign Language
@@ -55,6 +57,10 @@ export class TranslationService {
   }
 
   translateSpokenToSigned(text: string, spokenLanguage: string, signedLanguage: string): Observable<string> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return of(null);
+    }
+
     // Backend expects 'ase' for Ghanaian Sign Language (GSL) poses
     if (signedLanguage === 'gse' || signedLanguage === 'gsl') {
       signedLanguage = 'ase';

@@ -73,7 +73,7 @@ export class SignWritingComponent {
 
       // Load the SignWriting custom elements
       import(/* webpackChunkName: "@sutton-signwriting/sgnw-components" */ '@sutton-signwriting/sgnw-components/loader')
-        .then(({defineCustomElements}) => defineCustomElements())
+        .then(({defineCustomElements}) => defineCustomElements(window, {resourcesUrl: '/assets/sgnw-components/'}))
         .then()
         .catch();
     }

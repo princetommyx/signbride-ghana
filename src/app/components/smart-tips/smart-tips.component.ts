@@ -9,6 +9,25 @@ import {SmartTipsService} from './smart-tips.service';
 
 const LOCAL_GSL_DICT: Record<string, string> = {
   hello: 'Open palm facing out, move it slightly side to side near your forehead.',
+  hi: 'Wave one hand back and forth at shoulder height for a casual greeting.',
+  greetings: 'Open palm moves outward from the chin or chest in a friendly greeting motion.',
+  good: 'Hold an open palm near the chest and move it outward with a slight nodding motion.',
+  morning: 'Place the fingertips of one hand near the cheek and move your hand upward and forward.',
+  day: 'Open hand starts at the forehead and moves down slightly to indicate daytime.',
+  'good morning': 'Start with “good” near the chest, then move the hand from the cheek outward for “morning.”',
+  how: 'Hold both hands in loose fists with knuckles together and twist them slightly outward.',
+  where: 'Hold one hand open and shake it side to side as if asking for location.',
+  will: 'Point forward with one hand while moving slightly in the direction of future action.',
+  go: 'Move an open hand outward in the direction you are indicating.',
+  come: 'Pull an open hand toward your body in a gentle motion.',
+  now: 'Place both flat hands together and move them down slightly to indicate the present moment.',
+  mine: 'Point to your chest with an open hand to show possession.',
+  my: 'Touch your chest with an open hand to indicate that something belongs to you.',
+  are: 'Use a flat hand moving slightly forward while looking at the person you are asking.',
+  you: 'Point your index finger directly at the person you are addressing.',
+  doing: 'Move both hands forward with palms up as if showing ongoing action.',
+  'how are you': 'Sign “how” with both hands, then point to the person to ask “you.”',
+  'are you': 'Sign “are” while looking at the person, then point for “you.”',
   thanks: 'Touch your chin with your fingertips and move your hand forward and down.',
   ghana: 'Index finger moves in a small circle near the forehead.',
   please: 'Place your open palm on your chest and move it in a circular motion.',
@@ -81,11 +100,19 @@ export class SmartTipsComponent {
       if (idx < 0 || !words[idx]) return null;
 
       const word = words[idx];
-      // Prioritize AI tip, then Local Dict, then generic fallback
-      const tip =
-        aiTips[word] ?? LOCAL_GSL_DICT[word] ?? `Follow the avatar's hand shape and motion carefully for "${word}".`;
+      const phraseCandidates: string[] = [];
+      if (idx > 0) phraseCandidates.push(`${words[idx - 1]} ${word}`);
+      if (idx > 1) phraseCandidates.push(`${words[idx - 2]} ${words[idx - 1]} ${word}`);
 
-      return {word, tip};
+      const exactTip = aiTips[word] ?? LOCAL_GSL_DICT[word];
+      const phraseTip = phraseCandidates
+        .map(candidate => ({candidate, tip: aiTips[candidate] ?? LOCAL_GSL_DICT[candidate]}))
+        .find(entry => !!entry.tip);
+
+      const tip = exactTip || phraseTip?.tip || `Follow the avatar's hand shape and motion carefully for "${word}".`;
+      const displayWord = phraseTip?.candidate ?? word;
+
+      return {word: displayWord, tip};
     }),
     distinctUntilChanged((a, b) => a?.word === b?.word && a?.tip === b?.tip)
   );

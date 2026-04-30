@@ -50,7 +50,7 @@ export abstract class BasePoseViewerComponent extends BaseComponent implements O
       BasePoseViewerComponent.isCustomElementDefined = true;
 
       const {defineCustomElements} = await import(/* webpackChunkName: "pose-viewer" */ 'pose-viewer/loader');
-      defineCustomElements();
+      defineCustomElements(window, {resourcesUrl: '/assets/pose-viewer/'});
     }
   }
 
