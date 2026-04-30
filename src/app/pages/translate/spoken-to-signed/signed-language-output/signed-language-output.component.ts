@@ -57,9 +57,6 @@ export class SignedLanguageOutputComponent extends BaseComponent implements OnIn
   safeVideoUrl: SafeUrl | null = null;
   isSharingSupported: boolean;
 
-  poseStatus = 'waiting for pose URL';
-  viewerDiagnostics: string[] = [];
-
   constructor() {
     super();
 
@@ -91,10 +88,6 @@ export class SignedLanguageOutputComponent extends BaseComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe();
-  }
-
-  handlePoseViewerDiagnostic(message: string): void {
-    this.viewerDiagnostics = [message, ...this.viewerDiagnostics].slice(0, 5);
   }
 
   copyTranslation(): void {
