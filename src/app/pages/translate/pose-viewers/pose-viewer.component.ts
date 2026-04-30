@@ -41,6 +41,10 @@ export abstract class BasePoseViewerComponent extends BaseComponent implements O
   }
 
   async definePoseViewerElement() {
+    if (typeof window === 'undefined' || typeof document === 'undefined' || typeof customElements === 'undefined') {
+      return;
+    }
+
     // Load the `pose-viewer` custom element
     if (!BasePoseViewerComponent.isCustomElementDefined) {
       BasePoseViewerComponent.isCustomElementDefined = true;

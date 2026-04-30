@@ -1,10 +1,9 @@
 <app-animation [fps]="effectiveFps"></app-animation>
 
 <pose-viewer
+  class="pose-viewer"
   #poseViewer
   [attr.src]="src"
   [attr.autoplay]="true"
   [attr.loop]="false"
-  [attr.background]="background"
-  width="10px"
-  height="10px"></pose-viewer>
+  [attr.background]="background"></pose-viewer>

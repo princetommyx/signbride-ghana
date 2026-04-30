@@ -32,11 +32,13 @@ export class AnimationComponent extends BaseComponent implements AfterViewInit {
 
     this.animationState$ = this.store.select<AnimationStateModel>(state => state.animation);
 
-    // Load the `model-viewer` custom element
-    if (!AnimationComponent.isCustomElementDefined) {
-      // Import lib to avoid pre-bundled version https://github.com/google/model-viewer/issues/2747
-      import(/* webpackChunkName: "@google/model-viewer" */ '@google/model-viewer/lib/model-viewer');
-      AnimationComponent.isCustomElementDefined = true;
+    if (typeof window !== 'undefined' && typeof customElements !== 'undefined') {
+      // Load the `model-viewer` custom element only in the browser.
+      if (!AnimationComponent.isCustomElementDefined) {
+        // Import lib to avoid pre-bundled version https://github.com/google/model-viewer/issues/2747
+        import(/* webpackChunkName: "@google/model-viewer" */ '@google/model-viewer/lib/model-viewer');
+        AnimationComponent.isCustomElementDefined = true;
+      }
     }
   }
 
@@ -76,14 +78,20 @@ export class AnimationComponent extends BaseComponent implements AfterViewInit {
 
     await Promise.all([this.three.load(), this.attach3DCharacter()]);
 
+    if (typeof customElements === 'undefined') {
+      return;
+    }
+
     // Wait for element to be defined
     if (!customElements.get('model-viewer')) {
       await customElements.whenDefined('model-viewer');
     }
 
     const ModelViewerElement = customElements.get('model-viewer');
-    // Always render the highest quality
-    (ModelViewerElement as any).minimumRenderScale = 1; // TODO investigate why type is not set
+    if (ModelViewerElement) {
+      // Always render the highest quality
+      (ModelViewerElement as any).minimumRenderScale = 1; // TODO investigate why type is not set
+    }
   }
 
   getScene() {

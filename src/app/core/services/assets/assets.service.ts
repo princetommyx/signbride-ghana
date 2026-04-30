@@ -288,7 +288,9 @@ export class AssetsService {
   }
 
   buildRemotePath(path: string) {
-    return AssetsService.BUCKET_URL + encodeURIComponent(path);
+    // Use the direct media endpoint so the browser receives the actual file bytes,
+    // not the Firebase storage metadata JSON.
+    return `${AssetsService.BUCKET_URL}${encodeURIComponent(path)}?alt=media`;
   }
 
   async listDirectory(path: string): Promise<string[]> {
