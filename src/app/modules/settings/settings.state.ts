@@ -34,7 +34,7 @@ const initialState: SettingsStateModel = {
 
   detectSign: false,
 
-  animatePose: false,
+  animatePose: true,
 
   drawVideo: true,
   drawPose: true,
