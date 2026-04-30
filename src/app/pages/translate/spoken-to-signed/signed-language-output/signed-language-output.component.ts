@@ -70,15 +70,6 @@ export class SignedLanguageOutputComponent extends BaseComponent implements OnIn
   }
 
   ngOnInit(): void {
-    this.pose$
-      .pipe(
-        tap(url => {
-          this.poseStatus = url ? `pose URL loaded (${url.length} chars)` : 'no pose URL available';
-        }),
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe();
-
     this.video$
       .pipe(
         tap(url => {

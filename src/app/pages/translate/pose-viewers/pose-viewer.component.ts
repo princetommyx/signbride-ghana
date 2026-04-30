@@ -20,6 +20,7 @@ export abstract class BasePoseViewerComponent extends BaseComponent implements O
   readonly poseEl = viewChild<ElementRef<HTMLPoseViewerElement>>('poseViewer');
 
   background: string = 'white';
+  poseViewerSupported = true;
 
   // Using cache and MediaRecorder for older browsers, and safari
   mimeTypes = ['video/webm; codecs:vp9', 'video/webm; codecs:vp8', 'video/webm', 'video/mp4', 'video/ogv'];
@@ -49,8 +50,14 @@ export abstract class BasePoseViewerComponent extends BaseComponent implements O
     if (!BasePoseViewerComponent.isCustomElementDefined) {
       BasePoseViewerComponent.isCustomElementDefined = true;
 
-      const {defineCustomElements} = await import(/* webpackChunkName: "pose-viewer" */ 'pose-viewer/loader');
-      defineCustomElements(window, {resourcesUrl: '/assets/pose-viewer/'});
+      try {
+        const {defineCustomElements} = await import(/* webpackChunkName: "pose-viewer" */ 'pose-viewer/loader');
+        const resourcesUrl = new URL('/assets/pose-viewer/', document.baseURI).href;
+        defineCustomElements(window, {resourcesUrl});
+      } catch (error) {
+        console.error('Failed to define pose-viewer custom element', error);
+        this.poseViewerSupported = false;
+      }
     }
   }
 
