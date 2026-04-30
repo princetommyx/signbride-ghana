@@ -1,38 +1,45 @@
-@for (poseUrl of [pose$ | async]; track poseUrl) {
-  @if (poseUrl) {
-    @switch (poseViewerSetting$ | async) {
-      @case ('avatar') {
-        <app-avatar-pose-viewer [src]="poseUrl" />
-      }
-      @case ('person') {
-        <app-human-pose-viewer [src]="poseUrl" />
-      }
-      @default {
-        <!-- Default skeleton viewer -->
-        <app-skeleton-pose-viewer [src]="poseUrl" />
-      }
-    }
-  } @else if (videoUrl) {
-    <video
-      [src]="safeVideoUrl"
-      autoplay
-      loop
-      muted
-      playsinline
-      height="100%"
-      width="100%"
-      (error)="onVideoError($event)"
-      (loadedmetadata)="onVideoLoadedMetadata($event)"
-      (timeupdate)="onVideoTimeUpdate($event)"
-      (click)="playVideoIfPaused($event)"></video>
-  }
-}
+<ng-container *ngIf="pose$ | async as poseUrl; else videoBlock">
+  <ng-container [ngSwitch]="poseViewerSetting$ | async">
+    <app-avatar-pose-viewer
+      *ngSwitchCase="'avatar'"
+      [src]="poseUrl"
+      (diagnosticMessage)="handlePoseViewerDiagnostic($event)"></app-avatar-pose-viewer>
+    <app-human-pose-viewer *ngSwitchCase="'person'" [src]="poseUrl"></app-human-pose-viewer>
+    <app-skeleton-pose-viewer *ngSwitchDefault [src]="poseUrl"></app-skeleton-pose-viewer>
+  </ng-container>
+</ng-container>
+
+<ng-template #videoBlock>
+  <video
+    *ngIf="videoUrl"
+    [src]="safeVideoUrl"
+    autoplay
+    loop
+    muted
+    playsinline
+    height="100%"
+    width="100%"
+    (error)="onVideoError($event)"
+    (loadedmetadata)="onVideoLoadedMetadata($event)"
+    (timeupdate)="onVideoTimeUpdate($event)"
+    (click)="playVideoIfPaused($event)"></video>
+</ng-template>
+
+<div class="diagnostics-panel">
+  <div class="diagnostics-line"><strong>Pose status:</strong> {{ poseStatus }}</div>
+  <div class="diagnostics-line" *ngIf="viewerDiagnostics.length">
+    <strong>Viewer diagnostics:</strong>
+    <ul>
+      <li *ngFor="let message of viewerDiagnostics">{{ message }}</li>
+    </ul>
+  </div>
+</div>
 
 <app-smart-tips class="desktop-only-tips"></app-smart-tips>
 
-@if (pose$ | async; as pose) {
+<div *ngIf="pose$ | async as pose">
   <div class="actions-row">
-    @if (videoUrl) {
+    <ng-container *ngIf="videoUrl; else waitingBlock">
       <ion-button
         class="action-button"
         fill="solid"
@@ -42,26 +49,27 @@
         [attr.aria-label]="'translate.spoken-to-signed.actions.download' | transloco"
         [matTooltip]="'translate.spoken-to-signed.actions.download' | transloco"
         [matTooltipPosition]="'above'">
-        <ion-icon name="download-outline" slot="icon-only" />
+        <ion-icon name="download-outline" slot="icon-only"></ion-icon>
       </ion-button>
-      @if (isSharingSupported) {
-        <ion-button
-          class="action-button"
-          fill="solid"
-          shape="round"
-          color="primary"
-          (click)="shareTranslation()"
-          [attr.aria-label]="'translate.spoken-to-signed.actions.share' | transloco"
-          [matTooltip]="'translate.spoken-to-signed.actions.share' | transloco"
-          [matTooltipPosition]="'above'">
-          <ion-icon ios="share-outline" md="share-social-outline" slot="icon-only" />
-        </ion-button>
-      }
-    } @else {
+      <ion-button
+        *ngIf="isSharingSupported"
+        class="action-button"
+        fill="solid"
+        shape="round"
+        color="primary"
+        (click)="shareTranslation()"
+        [attr.aria-label]="'translate.spoken-to-signed.actions.share' | transloco"
+        [matTooltip]="'translate.spoken-to-signed.actions.share' | transloco"
+        [matTooltipPosition]="'above'">
+        <ion-icon ios="share-outline" md="share-social-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ng-container>
+
+    <ng-template #waitingBlock>
       <ion-button [disabled]="true" class="action-button" fill="solid" shape="round">
         <ion-spinner name="crescent"></ion-spinner>
       </ion-button>
-    }
+    </ng-template>
   </div>
   <app-viewer-selector></app-viewer-selector>
-}
+</div>

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, inject, Input} from '@angular/core';
+import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, inject, Input, Output} from '@angular/core';
 import {BasePoseViewerComponent} from '../pose-viewer.component';
 import {fromEvent} from 'rxjs';
 import {takeUntil, tap} from 'rxjs/operators';
@@ -14,19 +14,27 @@ import {AnimatePose} from '../../../../modules/animation/animation.actions';
 })
 export class AvatarPoseViewerComponent extends BasePoseViewerComponent implements AfterViewInit {
   @Input() src: string;
+  @Output() diagnosticMessage = new EventEmitter<string>();
 
   effectiveFps: number = 1;
   poseData: any = null;
 
   ngAfterViewInit(): void {
     const poseEl = this.poseEl().nativeElement;
+    this.emitDiagnostic('Avatar pose viewer initialized');
 
     fromEvent(poseEl, 'firstRender$')
       .pipe(
         tap(async () => {
-          this.poseData = await poseEl.getPose();
-          this.effectiveFps = this.poseData.body.fps;
-          this.playback.updateTiming(poseEl.currentTime, poseEl.duration);
+          try {
+            this.poseData = await poseEl.getPose();
+            this.effectiveFps = this.poseData.body.fps;
+            this.playback.updateTiming(poseEl.currentTime, poseEl.duration);
+            this.emitDiagnostic('Pose data loaded, fps=' + this.effectiveFps);
+          } catch (e) {
+            this.emitDiagnostic('Failed to load pose data: ' + (e as Error).message);
+            console.error('Failed to load pose data', e);
+          }
         }),
         takeUntil(this.ngUnsubscribe)
       )
@@ -39,6 +47,7 @@ export class AvatarPoseViewerComponent extends BasePoseViewerComponent implement
             this.playback.updateTiming(poseEl.currentTime, poseEl.duration);
             this.animateFrame();
           } catch (e) {
+            this.emitDiagnostic('Animation frame failed: ' + (e as Error).message);
             console.error('Animation frame failed', e);
           }
         }),
@@ -54,10 +63,16 @@ export class AvatarPoseViewerComponent extends BasePoseViewerComponent implement
     const frameIdx = Math.floor(poseEl.currentTime * this.effectiveFps);
     const frame = this.poseData.body.data[frameIdx];
 
-    if (!frame) return;
+    if (!frame) {
+      this.emitDiagnostic(`Frame not found at index ${frameIdx}`);
+      return;
+    }
 
     const person = frame[0];
-    if (!person) return;
+    if (!person) {
+      this.emitDiagnostic('No person data found in current frame');
+      return;
+    }
 
     const components = this.poseData.header.components;
     const landmarks = person;
@@ -85,5 +100,9 @@ export class AvatarPoseViewerComponent extends BasePoseViewerComponent implement
     };
 
     this.store.dispatch(new AnimatePose(estimatedPose));
+  }
+
+  private emitDiagnostic(message: string): void {
+    this.diagnosticMessage.emit(message);
   }
 }

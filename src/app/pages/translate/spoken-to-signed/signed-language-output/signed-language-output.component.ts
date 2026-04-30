@@ -18,7 +18,7 @@ import {AvatarPoseViewerComponent} from '../../pose-viewers/avatar-pose-viewer/a
 import {SkeletonPoseViewerComponent} from '../../pose-viewers/skeleton-pose-viewer/skeleton-pose-viewer.component';
 import {HumanPoseViewerComponent} from '../../pose-viewers/human-pose-viewer/human-pose-viewer.component';
 import {TranslocoPipe} from '@jsverse/transloco';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, CommonModule} from '@angular/common';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {addIcons} from 'ionicons';
 import {downloadOutline, shareOutline, shareSocialOutline} from 'ionicons/icons';
@@ -30,6 +30,7 @@ import {PosePlaybackService} from '../../pose-viewers/pose-playback.service';
   templateUrl: './signed-language-output.component.html',
   styleUrls: ['./signed-language-output.component.scss'],
   imports: [
+    CommonModule,
     IonSpinner,
     IonButton,
     ViewerSelectorComponent,
@@ -52,9 +53,12 @@ export class SignedLanguageOutputComponent extends BaseComponent implements OnIn
   pose$!: Observable<string>;
   video$!: Observable<string>;
 
-  videoUrl: string;
-  safeVideoUrl: SafeUrl;
+  videoUrl: string | null = null;
+  safeVideoUrl: SafeUrl | null = null;
   isSharingSupported: boolean;
+
+  poseStatus = 'waiting for pose URL';
+  viewerDiagnostics: string[] = [];
 
   constructor() {
     super();
@@ -69,6 +73,15 @@ export class SignedLanguageOutputComponent extends BaseComponent implements OnIn
   }
 
   ngOnInit(): void {
+    this.pose$
+      .pipe(
+        tap(url => {
+          this.poseStatus = url ? `pose URL loaded (${url.length} chars)` : 'no pose URL available';
+        }),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe();
+
     this.video$
       .pipe(
         tap(url => {
@@ -78,6 +91,10 @@ export class SignedLanguageOutputComponent extends BaseComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe();
+  }
+
+  handlePoseViewerDiagnostic(message: string): void {
+    this.viewerDiagnostics = [message, ...this.viewerDiagnostics].slice(0, 5);
   }
 
   copyTranslation(): void {
