@@ -1,72 +1,58 @@
-# Privacy Policy for [sign.mt](https://sign.mt)
+# Privacy Policy for SignBridge Ghana
 
-Last Update: 21 October 2025
+**Last Update: May 28, 2026**
 
-This Privacy Policy describes how Nagish Inc. and our subsidiaries and affiliates (collectively, “Nagish”, “we”, “us”, or “our”) handle information in connection with our website located at [https://sign.mt](https://sign.mt) (collectively with any related websites and successor websites, the “Website”), and any other services that we own or control and which post or link to this Privacy Policy (collectively, the “Services”), and the rights and choices available to you with respect to your information.  
-This Privacy Notice is governed by our Terms of Service. Defined terms used herein and not otherwise defined have the meanings set forth in the Terms of Service.
+This Privacy Policy describes how the SignBridge Ghana Team, developed at the University of Professional Studies, Accra (UPSA) (collectively, “SignBridge Ghana”, “we”, “us”, or “our”) handles information in connection with our web and mobile application, and any other related services that we own or control (collectively, the “Services”).
 
-> PLEASE READ THIS PRIVACY POLICY CAREFULLY TO UNDERSTAND HOW WE HANDLE YOUR PERSONAL INFORMATION.  
-> IF YOU DO NOT AGREE TO THIS PRIVACY POLICY, PLEASE DO NOT ACCESS THE WEBSITE OR USE OUR SERVICES.
+Our guiding principle is **data minimization and privacy by design**. Whenever feasible, sign language processing and translation happen locally on your device, limiting the transmission of personal data across the internet.
+
+> PLEASE READ THIS PRIVACY POLICY CAREFULLY TO UNDERSTAND HOW WE HANDLE YOUR PERSONAL INFORMATION. IF YOU DO NOT AGREE TO THIS PRIVACY POLICY, PLEASE DO NOT USE OUR SERVICES.
 
 ---
 
 ## 1. Who We Are
 
-Nagish Inc. is the data controller responsible for any personal data processed in connection with the Website.
-
-Our guiding principle is data-minimization.  
-Whenever feasible, processing happens locally on your device, limiting the amount of information transmitted across the internet.  
-Remote processing is performed only when necessary to deliver high-quality translation and accessibility features.
+SignBridge Ghana is an open-source translation platform developed as an undergraduate capstone project at the University of Professional Studies, Accra (UPSA) to bridge communication gaps for the Ghanaian Deaf community. We act as the data controller for any personal data processed in connection with the application.
 
 ---
 
 ## 2. What Data We Collect and Why
 
-When you submit text for translation, our backend records the request, a salted-and-hashed version of your IP address, the target and source language, and diagnostic details that help us keep the service reliable and secure.  
-For the spoken-to-signed translation feature, the full input is logged because we need it to evaluate and improve sign-language rendering quality.  
-These logs reside in Google Cloud Logs and Google BigQuery on encrypted storage and are automatically deleted once they are no longer operationally required.
+We collect only the minimum data necessary to provide a reliable, efficient, and low-bandwidth translation service:
 
-If you opt in through our cookie banner, we gather aggregated analytics such as page paths, browser type, device category, and language settings.  
-This data, processed through Google Analytics, helps us understand overall usage patterns and prioritise product improvements.  
-Declining or later withdrawing consent stops analytics collection immediately.
+### A. Translation Inputs
 
-Certain advanced features—specifically text normalization and vocalization—send your input to OpenAI’s ChatGPT API for processing.  
-These requests are covered by the [OpenAI Privacy Policy](https://openai.com/policies/privacy-policy).
+- **Text Input:** When you translate spoken text to sign language, the text is processed to generate the corresponding avatar gestures or crops.
+- **Webcam/Video Input:** For signed-to-spoken translation, webcam frames are analyzed locally using on-device pose estimation models to extract body landmarks. Raw video feeds are processed locally on your device whenever possible.
+- **Logs & Quality Evaluation:** Diagnostic metadata (e.g., source/target language and application status codes) are logged securely to monitor performance and improve the translation mapping dictionary.
 
----
+### B. Optional Analytics
 
-## 3. Legal Bases for Processing
-
-We rely on performance of a contract under Article 6(1)(b) GDPR to deliver translations you explicitly request.  
-Diagnostic logging is processed under our legitimate interests in maintaining service integrity under Article 6(1)(f).  
-Analytics and optional features that send data to third parties are processed on the basis of your explicit consent under Article 6(1)(a).  
-You may revoke consent at any time without affecting the lawfulness of processing carried out before withdrawal.
+If you consent through our cookies banner, we collect basic, aggregated usage analytics (e.g., page views, language selections, and browser type) to help optimize the application performance for low-bandwidth networks in regional parts of Ghana.
 
 ---
 
-## 4. Data Security
+## 3. Data Processing and Storage
 
-All information is stored on encrypted infrastructure hosted on Google Cloud.  
-Access is restricted to authorized personnel, and all third-party providers operate under GDPR-aligned data-processing agreements.
-
----
-
-## 5. International Transfers
-
-Where data leaves the EEA—including transfers to the United States—we rely on the EU Standard Contractual Clauses (SCCs) and comparable Swiss mechanisms to ensure an essentially equivalent level of protection as required by GDPR and FADP.
+- **Local On-Device Execution:** To support offline functionality and accommodate poor network coverage in rural Ghana, our core translation features run directly in your web browser or app container.
+- **Security:** Any remote data transmission is encrypted in transit using industry-standard Transport Layer Security (TLS) and stored on secure cloud databases.
+- **Third-Party Services:** Advanced translation features may leverage external APIs (such as OpenAI's GPT models for spoken text refinement). These external tools are governed by their respective privacy policies and do not receive identifying user details.
 
 ---
 
-## 6. Your Rights
+## 4. Your Rights
 
-You have the right to request access, rectification, erasure, restriction of processing, and portability of your personal data, as well as the right to object to certain processing activities.  
-Please note that because we anonymize request logs and remove direct identifiers, we may be unable to locate any data that can be linked back to you personally.  
-To exercise any of these rights, contact us at [hello&#64;nagish.com](mailto:hello@nagish.com).  
-You also have the right to lodge a complaint with your local supervisory authority.
+Under applicable data protection frameworks, including the Ghana Data Protection Act, 2012 (Act 843), you have the right to:
+
+- Access the personal data we hold about you.
+- Request correction of inaccurate information.
+- Request deletion of your query histories or logs.
+- Withdraw consent for optional usage analytics at any time.
+
+Because we prioritize anonymity, diagnostic logs do not contain direct identifiers. If you have any inquiries or wish to exercise your rights, please reach out to us at [support@signbridgeghana.org](mailto:support@signbridgeghana.org).
 
 ---
 
-## 7. Updates to This Policy
+## 5. Updates to This Policy
 
-We update this Privacy Policy when our technology, legal obligations, or data-handling practices change.  
-The most recent version is always available at [sign.mt](https://sign.mt), and the “Last Update” date above reflects the date of the latest substantive revision.
+We may update this Privacy Policy from time to time to reflect modifications in our features or legal standards. The latest version will always be published within the application with an updated revision date.
