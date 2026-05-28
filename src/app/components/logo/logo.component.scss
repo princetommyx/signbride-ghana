@@ -29,14 +29,14 @@ img {
   height: 42px;
   width: 42px;
   object-fit: contain;
-  background: #ffffff;
+  background: #000000;
   border-radius: 10px;
   padding: 3px;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
     0 1px 3px rgba(0, 0, 0, 0.05);
   display: block;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
