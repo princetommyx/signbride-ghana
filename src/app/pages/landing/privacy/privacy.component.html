@@ -1,92 +1,119 @@
-<h1>Privacy Policy for SignBridge Ghana</h1>
-<p><strong>Last Update: May 28, 2026</strong></p>
-<p>
-  This Privacy Policy describes how the SignBridge Ghana Team, developed at the University of Professional Studies,
-  Accra (UPSA) (collectively, “SignBridge Ghana”, “we”, “us”, or “our”) handles information in connection with our web
-  and mobile application, and any other related services that we own or control (collectively, the “Services”).
-</p>
-<p>
-  Our guiding principle is <strong>data minimization and privacy by design</strong>. Whenever feasible, sign language
-  processing and translation happen locally on your device, limiting the transmission of personal data across the
-  internet.
-</p>
-<blockquote>
-  <p>
-    PLEASE READ THIS PRIVACY POLICY CAREFULLY TO UNDERSTAND HOW WE HANDLE YOUR PERSONAL INFORMATION. IF YOU DO NOT AGREE
-    TO THIS PRIVACY POLICY, PLEASE DO NOT USE OUR SERVICES.
-  </p>
-</blockquote>
-<hr />
-<h2>1. Who We Are</h2>
-<p>
-  SignBridge Ghana is an open-source translation platform developed as an undergraduate capstone project at the
-  University of Professional Studies, Accra (UPSA) to bridge communication gaps for the Ghanaian Deaf community. We act
-  as the data controller for any personal data processed in connection with the application.
-</p>
-<hr />
-<h2>2. What Data We Collect and Why</h2>
-<p>
-  We collect only the minimum data necessary to provide a reliable, efficient, and low-bandwidth translation service:
-</p>
-<h3>A. Translation Inputs</h3>
-<ul>
-  <li>
-    <strong>Text Input:</strong> When you translate spoken text to sign language, the text is processed to generate the
-    corresponding avatar gestures or crops.
-  </li>
-  <li>
-    <strong>Webcam/Video Input:</strong> For signed-to-spoken translation, webcam frames are analyzed locally using
-    on-device pose estimation models to extract body landmarks. Raw video feeds are processed locally on your device
-    whenever possible.
-  </li>
-  <li>
-    <strong>Logs &amp; Quality Evaluation:</strong> Diagnostic metadata (e.g., source/target language and application
-    status codes) are logged securely to monitor performance and improve the translation mapping dictionary.
-  </li>
-</ul>
-<h3>B. Optional Analytics</h3>
-<p>
-  If you consent through our cookies banner, we collect basic, aggregated usage analytics (e.g., page views, language
-  selections, and browser type) to help optimize the application performance for low-bandwidth networks in regional
-  parts of Ghana.
-</p>
-<hr />
-<h2>3. Data Processing and Storage</h2>
-<ul>
-  <li>
-    <strong>Local On-Device Execution:</strong> To support offline functionality and accommodate poor network coverage
-    in rural Ghana, our core translation features run directly in your web browser or app container.
-  </li>
-  <li>
-    <strong>Security:</strong> Any remote data transmission is encrypted in transit using industry-standard Transport
-    Layer Security (TLS) and stored on secure cloud databases.
-  </li>
-  <li>
-    <strong>Third-Party Services:</strong> Advanced translation features may leverage external APIs (such as
-    OpenAI&#39;s GPT models for spoken text refinement). These external tools are governed by their respective privacy
-    policies and do not receive identifying user details.
-  </li>
-</ul>
-<hr />
-<h2>4. Your Rights</h2>
-<p>
-  Under applicable data protection frameworks, including the Ghana Data Protection Act, 2012 (Act 843), you have the
-  right to:
-</p>
-<ul>
-  <li>Access the personal data we hold about you.</li>
-  <li>Request correction of inaccurate information.</li>
-  <li>Request deletion of your query histories or logs.</li>
-  <li>Withdraw consent for optional usage analytics at any time.</li>
-</ul>
-<p>
-  Because we prioritize anonymity, diagnostic logs do not contain direct identifiers. If you have any inquiries or wish
-  to exercise your rights, please reach out to us at
-  <a href="mailto:support@signbridgeghana.org">support@signbridgeghana.org</a>.
-</p>
-<hr />
-<h2>5. Updates to This Policy</h2>
-<p>
-  We may update this Privacy Policy from time to time to reflect modifications in our features or legal standards. The
-  latest version will always be published within the application with an updated revision date.
-</p>
+<div class="policy-wrapper" style="animation: fadeIn 0.5s ease-out both;">
+  <div class="policy-container glass-panel" style="animation: slideUp 0.8s ease-out 0.2s both;">
+    <div class="header-section">
+      <h1 class="page-title">Privacy Policy</h1>
+      <p class="subtitle">SignBridge Ghana • Your Data, Your Control</p>
+      <p class="last-updated"><strong>Last Updated: May 28, 2026</strong></p>
+    </div>
+    
+    <div class="policy-content">
+      <p class="intro-text">
+        This Privacy Policy describes how the SignBridge Ghana Team handles information in connection with our web and mobile application, and any other related services that we own or control.
+      </p>
+
+      <div class="principle-banner glass-panel">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <div class="principle-text">
+          <h3>Data Minimization & Privacy by Design</h3>
+          <p>Whenever feasible, sign language processing and translation happen <strong>locally on your device</strong>, limiting the transmission of personal data across the internet.</p>
+        </div>
+      </div>
+      
+      <div class="alert-box warning-box">
+        <p>
+          PLEASE READ THIS PRIVACY POLICY CAREFULLY. IF YOU DO NOT AGREE TO THIS POLICY, PLEASE DO NOT USE OUR SERVICES.
+        </p>
+      </div>
+
+      <hr class="fancy-divider" />
+
+      <h2>1. Who We Are</h2>
+      <p>
+        SignBridge Ghana is an open-source translation platform developed as an undergraduate capstone project at the University of Professional Studies, Accra (UPSA) to bridge communication gaps for the Ghanaian Deaf community. We act as the data controller for any personal data processed in connection with the application.
+      </p>
+
+      <hr class="fancy-divider" />
+
+      <h2>2. What Data We Collect and Why</h2>
+      <p>
+        We collect only the minimum data necessary to provide a reliable, efficient, and low-bandwidth translation service:
+      </p>
+      
+      <div class="data-grid">
+        <div class="data-card glass-panel">
+          <div class="icon-wrapper translate-icon"><ion-icon name="text-outline"></ion-icon></div>
+          <h3>Translation Inputs</h3>
+          <p>When translating spoken text to sign language, text is processed locally or securely to generate avatars.</p>
+        </div>
+        
+        <div class="data-card glass-panel">
+          <div class="icon-wrapper video-icon"><ion-icon name="videocam-outline"></ion-icon></div>
+          <h3>Camera & Video</h3>
+          <p>Raw video feeds are processed <strong>locally on your device</strong> to extract body landmarks for translation.</p>
+        </div>
+
+        <div class="data-card glass-panel">
+          <div class="icon-wrapper analytics-icon"><ion-icon name="stats-chart-outline"></ion-icon></div>
+          <h3>Diagnostics</h3>
+          <p>We log diagnostic metadata (e.g., app status codes) to monitor performance on low-bandwidth networks.</p>
+        </div>
+      </div>
+
+      <hr class="fancy-divider" />
+
+      <h2>3. Data Processing and Storage</h2>
+      <ul class="styled-list features-list">
+        <li>
+          <ion-icon name="hardware-chip-outline"></ion-icon>
+          <div>
+            <strong>Local On-Device Execution</strong>
+            <p>To support offline functionality and accommodate poor network coverage in rural Ghana, our core translation features run directly in your web browser or app container.</p>
+          </div>
+        </li>
+        <li>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <div>
+            <strong>Security</strong>
+            <p>Any remote data transmission is encrypted in transit using industry-standard Transport Layer Security (TLS).</p>
+          </div>
+        </li>
+        <li>
+          <ion-icon name="cloud-outline"></ion-icon>
+          <div>
+            <strong>Third-Party Services</strong>
+            <p>Advanced translation features may leverage external APIs (such as OpenAI models for text refinement). These services are governed by their respective privacy policies.</p>
+          </div>
+        </li>
+      </ul>
+
+      <hr class="fancy-divider" />
+
+      <h2>4. Your Rights</h2>
+      <p>
+        Under applicable data protection frameworks, including the Ghana Data Protection Act, 2012 (Act 843), you have the right to:
+      </p>
+      <div class="rights-tags">
+        <span class="right-tag">Access your data</span>
+        <span class="right-tag">Correct inaccuracies</span>
+        <span class="right-tag">Request deletion</span>
+        <span class="right-tag">Withdraw consent</span>
+      </div>
+      
+      <div class="contact-box glass-panel">
+        <div class="contact-icon"><ion-icon name="mail-outline"></ion-icon></div>
+        <div class="contact-info">
+          <h3>Exercise Your Rights</h3>
+          <p>Because we prioritize anonymity, diagnostic logs do not contain direct identifiers. If you have any inquiries, reach out to us.</p>
+          <a href="mailto:support@signbridgeghana.org" class="action-button">support&#64;signbridgeghana.org</a>
+        </div>
+      </div>
+
+      <hr class="fancy-divider" />
+
+      <h2>5. Updates to This Policy</h2>
+      <p class="footer-text">
+        We may update this Privacy Policy from time to time to reflect modifications in our features or legal standards. The latest version will always be published within the application.
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,9 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {SettingsComponent} from './settings.component';
-import {provideStore, Store} from '@ngxs/store';
+import {provideStore, Store, NgxsModule} from '@ngxs/store';
 import {SettingsState} from '../settings.state';
 import {ngxsConfig} from '../../../app.config';
 import {AppTranslocoTestingModule} from '../../../core/modules/transloco/transloco-testing.module';
@@ -15,7 +16,7 @@ describe('SettingsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppTranslocoTestingModule, SettingsComponent],
-      providers: [provideStore([SettingsState], ngxsConfig)],
+      providers: [importProvidersFrom(NgxsModule.forRoot([SettingsState], ngxsConfig))],
     }).compileComponents();
   });
 

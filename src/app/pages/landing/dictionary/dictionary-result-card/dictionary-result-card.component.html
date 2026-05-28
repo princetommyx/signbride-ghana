@@ -3,7 +3,7 @@
     <h3 class="word-title">{{ sign.word | uppercase }}</h3>
   </div>
 
-  <div class="card-image-container">
+  <div class="card-image-container" [ngClass]="{'align-left': sign.align === 'left', 'align-right': sign.align === 'right', 'align-full': sign.align === 'full'}">
     @if (hasMultipleImages) {
       <swiper-container pagination="true" navigation="true" class="mySwiper">
         @for (img of sign.images; track img) {

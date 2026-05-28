@@ -1,8 +1,9 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {TranslateInputButtonComponent} from './button.component';
-import {provideStore, Store} from '@ngxs/store';
+import {provideStore, Store, NgxsModule} from '@ngxs/store';
 import {ngxsConfig} from '../../../../app.config';
 
 import {SettingsState} from '../../../../modules/settings/settings.state';
@@ -25,7 +26,7 @@ describe('TranslateInputButtonComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideIonicAngular(),
-        provideStore([SettingsState, TranslateState], ngxsConfig),
+        importProvidersFrom(NgxsModule.forRoot([SettingsState, TranslateState], ngxsConfig)),
       ],
     }).compileComponents();
   });

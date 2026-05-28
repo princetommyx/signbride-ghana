@@ -2,9 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {SignWritingComponent} from './sign-writing.component';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, importProvidersFrom} from '@angular/core';
 import {defineCustomElements as defineCustomElementsSW} from '@sutton-signwriting/sgnw-components/loader';
-import {provideStore, Store} from '@ngxs/store';
+import {provideStore, Store, NgxsModule} from '@ngxs/store';
 import {ngxsConfig} from '../../../app.config';
 import {TranslateState, TranslateStateModel} from '../../../modules/translate/translate.state';
 import {provideHttpClient} from '@angular/common/http';
@@ -29,7 +29,7 @@ describe('SignWritingComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideStore([SettingsState, TranslateState], ngxsConfig),
+        importProvidersFrom(NgxsModule.forRoot([SettingsState, TranslateState], ngxsConfig)),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

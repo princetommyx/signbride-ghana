@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'settings.other.appearance'">
   @if (settingsState$ | async; as settings) {
     <div id="appearance-options" [style.--appearance-scale]="scale">
-      @for (appearance of appearances; track appearance.value) {
+      @for (appearance of appearances; track appearance.src) {
         <button
           mat-fab
           class="image"

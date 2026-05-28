@@ -21,6 +21,7 @@ export interface GSLSign {
   letter?: string;
   aliases?: string[];
   tags?: string[];
+  align?: 'left' | 'right' | 'full';
 }
 
 @Component({

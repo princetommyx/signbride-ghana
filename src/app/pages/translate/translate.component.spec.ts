@@ -1,8 +1,9 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {TranslateComponent} from './translate.component';
-import {provideStore, Store} from '@ngxs/store';
+import {provideStore, Store, NgxsModule} from '@ngxs/store';
 import {TranslateState} from '../../modules/translate/translate.state';
 import {SettingsState} from '../../modules/settings/settings.state';
 import {TranslocoService} from '@jsverse/transloco';
@@ -26,7 +27,7 @@ describe('TranslateComponent', () => {
         provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideStore([SettingsState, TranslateState, VideoState], ngxsConfig),
+        importProvidersFrom(NgxsModule.forRoot([SettingsState, TranslateState, VideoState], ngxsConfig)),
       ],
     }).compileComponents();
   });

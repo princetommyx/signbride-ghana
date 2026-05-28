@@ -16,6 +16,8 @@ export const environment = {
     measurementId: null,
   },
   reCAPTCHAKey: '',
+  geminiApiKey: 'AIzaSyAmQL2w7PB4Cx_BCm-mTCUfOjC8Q7zEJgI',
+  signMtBase: 'https://us-central1-sign-mt.cloudfunctions.net',
   initialNavigation: 'enabledNonBlocking' as InitialNavigation,
 };
 

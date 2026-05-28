@@ -2,13 +2,13 @@ import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing'
 
 import {SpokenLanguageInputComponent} from './spoken-language-input.component';
 import {SetSpokenLanguageText, SuggestAlternativeText} from '../../../../modules/translate/translate.actions';
-import {provideStore, Store} from '@ngxs/store';
+import {provideStore, Store, NgxsModule} from '@ngxs/store';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 import {SettingsState} from '../../../../modules/settings/settings.state';
 import {ngxsConfig} from '../../../../app.config';
 import {provideHttpClient} from '@angular/common/http';
 import {AppTranslocoTestingModule} from '../../../../core/modules/transloco/transloco-testing.module';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, importProvidersFrom} from '@angular/core';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {TranslateState} from '../../../../modules/translate/translate.state';
 
@@ -24,7 +24,7 @@ describe('SpokenLanguageInputComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideStore([SettingsState, TranslateState], ngxsConfig),
+        importProvidersFrom(NgxsModule.forRoot([SettingsState, TranslateState], ngxsConfig)),
       ],
     });
     fixture = TestBed.createComponent(SpokenLanguageInputComponent);

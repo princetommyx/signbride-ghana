@@ -1,17 +1,20 @@
 .card {
   width: 340px;
-  background-color: #ffffff;
+  background-color: var(--app-glass-background, #ffffff);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  border: 1px solid var(--app-glass-border, rgba(255, 255, 255, 0.4));
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
   }
 }
 
@@ -20,7 +23,7 @@
     margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
-    color: #333;
+    color: var(--ion-text-color, #333);
     text-align: center;
     letter-spacing: 0.5px;
   }
@@ -31,16 +34,32 @@
   aspect-ratio: 1 / 1;
   border-radius: 16px;
   overflow: hidden;
-  background-color: #f8f9fa;
+  background-color: var(--app-tinted-background-color, #f8f9fa);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     padding: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  &.align-left img, &.align-right img {
+    width: 200%;
+    max-width: none;
+    object-fit: cover;
+    padding: 0;
+  }
+
+  &.align-left img {
+    transform: translateX(0);
+  }
+
+  &.align-right img {
+    transform: translateX(-50%);
   }
 
   swiper-container {
@@ -52,7 +71,7 @@
 .section-label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #666;
+  color: var(--ion-color-medium, #666);
   text-transform: uppercase;
   margin-bottom: 4px;
 }
@@ -61,7 +80,7 @@
   .description {
     margin: 0;
     font-size: 1rem;
-    color: #444;
+    color: var(--ion-color-step-600, #444);
     line-height: 1.5;
   }
 }
@@ -102,7 +121,7 @@
 .card-footer {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--app-divider-color, #eee);
 
   .page-link {
     width: 100%;
@@ -117,17 +136,17 @@
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: #f8f9fa;
+      background-color: var(--app-tinted-background-color, #f8f9fa);
     }
 
     .page-text {
-      color: #666;
+      color: var(--ion-color-medium, #666);
       font-weight: 600;
       font-size: 0.9rem;
     }
 
     .link-text {
-      color: #0066cc;
+      color: var(--ion-color-primary, #0066cc);
       font-size: 0.9rem;
       font-weight: 500;
     }

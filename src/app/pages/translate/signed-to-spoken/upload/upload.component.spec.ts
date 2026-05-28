@@ -1,8 +1,9 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {UploadComponent} from './upload.component';
-import {provideStore, Store} from '@ngxs/store';
+import {provideStore, Store, NgxsModule} from '@ngxs/store';
 import {ngxsConfig} from '../../../../app.config';
 import {AppTranslocoTestingModule} from '../../../../core/modules/transloco/transloco-testing.module';
 import {SetVideo} from '../../../../core/modules/ngxs/store/video/video.actions';
@@ -32,7 +33,7 @@ describe('UploadComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideIonicAngular(),
-        provideStore([SettingsState, TranslateState], ngxsConfig),
+        importProvidersFrom(NgxsModule.forRoot([SettingsState, TranslateState], ngxsConfig)),
       ],
     }).compileComponents();
   });

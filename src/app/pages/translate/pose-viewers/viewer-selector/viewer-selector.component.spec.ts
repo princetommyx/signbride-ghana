@@ -3,7 +3,7 @@ import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {ViewerSelectorComponent} from './viewer-selector.component';
 
-import {provideStore} from '@ngxs/store';
+import {NgxsModule, provideStore} from '@ngxs/store';
 import {SettingsState} from '../../../../modules/settings/settings.state';
 import {ngxsConfig} from '../../../../app.config';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -16,8 +16,8 @@ describe('ViewerSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppTranslocoTestingModule, NoopAnimationsModule, ViewerSelectorComponent],
-      providers: [provideIonicAngular(), provideStore([SettingsState], ngxsConfig)],
+      imports: [AppTranslocoTestingModule, NoopAnimationsModule, NgxsModule.forRoot([SettingsState], ngxsConfig), ViewerSelectorComponent],
+      providers: [provideIonicAngular()],
     }).compileComponents();
   });
 
