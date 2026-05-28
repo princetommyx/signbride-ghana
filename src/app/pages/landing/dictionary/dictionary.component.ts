@@ -91,7 +91,7 @@ export class DictionaryComponent implements OnInit {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.http.get<GSLSign[]>('assets/docs/gsl-dictionary.json').subscribe({
+      this.http.get<GSLSign[]>('assets/data/gsl_dictionary.json').subscribe({
         next: data => {
           this.allSigns = data;
           this.initFuse();
