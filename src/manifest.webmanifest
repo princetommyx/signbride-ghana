@@ -19,15 +19,15 @@
   },
   "icons": [
     {
-      "src": "assets/brand/logo.svg",
+      "src": "assets/icons/signbridgeLogo.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/brand/logo.svg",
+      "src": "assets/icons/signbridgeLogo.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ],
