@@ -1,7 +1,7 @@
 // import {TestBed} from '@angular/core/testing';
 // import {AppRoutingModule} from './app-routing.module';
 // import {Router} from '@angular/router';
-// import {provideStore([SettingsState], ngxsConfig)} from './core/modules/ngxs/ngxs.module';
+// import {importProvidersFrom(NgxsModule.forRoot([SettingsState], ngxsConfig))} from './core/modules/ngxs/ngxs.module';
 // import {provideHttpClient} from '@angular/common/http';
 // import {ngxsConfig} from './app.config';
 // import {SettingsState} from './modules/settings/settings.state';
@@ -12,7 +12,7 @@
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
 //       teardown: {destroyAfterEach: false},
-//       imports: [AppRoutingModule, provideStore([SettingsState], ngxsConfig)],
+//       imports: [AppRoutingModule, importProvidersFrom(NgxsModule.forRoot([SettingsState], ngxsConfig))],
 //       providers: [provideHttpClient()],
 //     });
 //   });

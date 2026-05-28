@@ -1,9 +1,9 @@
 <ion-content>
-  <div class="dictionary-wrapper">
+  <div class="dictionary-wrapper" style="animation: fadeIn 0.5s ease-out both;">
     <!-- Main Search Section -->
-    <div class="search-section">
+    <div class="search-section" style="animation: slideDown 0.6s ease-out 0.1s both;">
       <div class="search-container">
-        <div class="search-bar">
+        <div class="search-bar glass-panel">
           <ion-icon name="search-outline" class="search-icon"></ion-icon>
           <input
             type="text"
@@ -51,11 +51,11 @@
     </div>
 
     <!-- Results Grid -->
-    <div class="results-container">
+    <div class="results-container" style="animation: slideUp 0.6s ease-out 0.3s both;">
       @if (filteredSigns$ | async; as signs) {
         <div class="results-grid">
-          @for (sign of signs | slice: 0 : displayedLimit; track sign) {
-            <app-dictionary-result-card [sign]="sign" (openFullPage)="openPage($event)"> </app-dictionary-result-card>
+          @for (sign of signs | slice: 0 : displayedLimit; track sign; let i = $index) {
+            <app-dictionary-result-card [sign]="sign" (openFullPage)="openPage($event)" [style.animation]="'scaleIn 0.5s ease-out ' + (i * 0.05) + 's both'"> </app-dictionary-result-card>
           }
           @if (signs.length === 0) {
             <div class="no-results">

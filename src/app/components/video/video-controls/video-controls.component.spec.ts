@@ -1,9 +1,10 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {VideoControlsComponent} from './video-controls.component';
 
-import {provideStore} from '@ngxs/store';
+import {provideStore, NgxsModule} from '@ngxs/store';
 import {SettingsState} from '../../../modules/settings/settings.state';
 import {ngxsConfig} from '../../../app.config';
 import {AppTranslocoTestingModule} from '../../../core/modules/transloco/transloco-testing.module';
@@ -15,7 +16,7 @@ describe('VideoControlsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppTranslocoTestingModule, VideoControlsComponent],
-      providers: [provideStore([SettingsState], ngxsConfig)],
+      providers: [importProvidersFrom(NgxsModule.forRoot([SettingsState], ngxsConfig))],
     }).compileComponents();
   });
 

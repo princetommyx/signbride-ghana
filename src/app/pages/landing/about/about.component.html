@@ -2,7 +2,7 @@
 <div class="about-wrapper">
   <!-- Hero Section -->
   <section class="hero-section">
-    <div class="hero-content">
+    <div class="hero-content" style="animation: slideDown 0.8s cubic-bezier(0.2, 0, 0, 1) both;">
       <h1 class="hero-title">SignBridge Ghana 🇬🇭</h1>
       <p class="hero-subtitle">Breaking Communication Barriers for the Ghanaian Deaf Community</p>
       <div class="accent-bar"></div>
@@ -11,7 +11,7 @@
 
   <!-- Mission Section -->
   <section class="mission-section">
-    <div class="section-container">
+    <div class="section-container" style="animation: fadeIn 1s ease-out 0.2s both;">
       <h2 class="section-title">Our Mission</h2>
       <p class="mission-text">
         SignBridge Ghana was developed to break down communication barriers for the Ghanaian Deaf community. We
@@ -20,7 +20,7 @@
       </p>
 
       <div class="info-grid">
-        <div class="info-card network-card">
+        <div class="info-card network-card glass-panel" style="animation: slideUp 0.8s ease-out 0.4s both;">
           <div class="card-icon">⚡</div>
           <div class="card-content">
             <h3 class="info-card-title">Overcoming the Network Challenge</h3>
@@ -32,7 +32,7 @@
           </div>
         </div>
 
-        <div class="info-card culture-card">
+        <div class="info-card culture-card glass-panel" style="animation: slideUp 0.8s ease-out 0.6s both;">
           <div class="card-icon">🎨</div>
           <div class="card-content">
             <h3 class="info-card-title">Preserving Cultural Identity</h3>
@@ -55,7 +55,7 @@
 
       <div class="tech-grid">
         <!-- Tech Card 1 -->
-        <div class="tech-card">
+        <div class="tech-card glass-panel" style="animation: scaleIn 0.8s ease-out 0.2s both;">
           <div class="tech-icon-container tech-gradient-1">
             <ion-icon [name]="technologies[0].icon"></ion-icon>
           </div>
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Tech Card 2 -->
-        <div class="tech-card">
+        <div class="tech-card glass-panel" style="animation: scaleIn 0.8s ease-out 0.4s both;">
           <div class="tech-icon-container tech-gradient-2">
             <ion-icon [name]="technologies[1].icon"></ion-icon>
           </div>
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Tech Card 3 -->
-        <div class="tech-card">
+        <div class="tech-card glass-panel" style="animation: scaleIn 0.8s ease-out 0.6s both;">
           <div class="tech-icon-container tech-gradient-3">
             <ion-icon [name]="technologies[2].icon"></ion-icon>
           </div>
@@ -97,7 +97,7 @@
       <h3 class="team-heading">Developers (Group 58)</h3>
       <div class="team-grid">
         <!-- Member 1 -->
-        <div class="team-card">
+        <div class="team-card glass-panel" style="animation: fadeIn 1s ease-out 0.2s both;">
           <div class="team-avatar avatar-gradient-1">
             {{ teamMembers[0].name.charAt(0) }}
           </div>
@@ -107,7 +107,7 @@
         </div>
 
         <!-- Member 2 -->
-        <div class="team-card">
+        <div class="team-card glass-panel" style="animation: fadeIn 1s ease-out 0.4s both;">
           <div class="team-avatar avatar-gradient-2">
             {{ teamMembers[1].name.charAt(0) }}
           </div>
@@ -117,7 +117,7 @@
         </div>
 
         <!-- Member 3 -->
-        <div class="team-card">
+        <div class="team-card glass-panel" style="animation: fadeIn 1s ease-out 0.6s both;">
           <div class="team-avatar avatar-gradient-3">
             {{ teamMembers[2].name.charAt(0) }}
           </div>
@@ -128,7 +128,7 @@
       </div>
 
       <!-- Supervisor -->
-      <div class="supervisor-card">
+      <div class="supervisor-card glass-panel" style="animation: slideUp 0.8s ease-out 0.8s both;">
         <div class="supervisor-badge">👨‍🎓</div>
         <div class="supervisor-details">
           <h3 class="supervisor-title">Project Supervisor</h3>

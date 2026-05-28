@@ -1,8 +1,9 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {VideoComponent} from './video.component';
-import {provideStore} from '@ngxs/store';
+import {provideStore, NgxsModule} from '@ngxs/store';
 import {AppTranslocoTestingModule} from '../../core/modules/transloco/transloco-testing.module';
 import {ngxsConfig} from '../../app.config';
 import {SettingsState} from '../../modules/settings/settings.state';
@@ -18,7 +19,7 @@ describe('VideoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppTranslocoTestingModule, VideoComponent],
-      providers: [provideStore([SettingsState, VideoState, SignWritingState, PoseState, DetectorState], ngxsConfig)],
+      providers: [importProvidersFrom(NgxsModule.forRoot([SettingsState, VideoState, SignWritingState, PoseState, DetectorState], ngxsConfig))],
     }).compileComponents();
   });
 

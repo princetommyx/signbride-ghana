@@ -87,9 +87,10 @@ export class SkeletonPoseViewerComponent extends BasePoseViewerComponent impleme
     this.pauseInvisible();
   }
 
+  private platformId = inject(PLATFORM_ID);
+
   pauseInvisible() {
-    const platformId = inject(PLATFORM_ID);
-    if (!isPlatformBrowser(platformId)) {
+    if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 

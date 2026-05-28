@@ -1,9 +1,10 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 import {AvatarPoseViewerComponent} from './avatar-pose-viewer.component';
 import {SettingsState} from '../../../../modules/settings/settings.state';
 import {ngxsConfig} from '../../../../app.config';
-import {provideStore} from '@ngxs/store';
+import {provideStore, NgxsModule} from '@ngxs/store';
 
 describe('AvatarPoseViewerComponent', () => {
   let component: AvatarPoseViewerComponent;
@@ -11,7 +12,7 @@ describe('AvatarPoseViewerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AvatarPoseViewerComponent],
-      providers: [provideStore([SettingsState], ngxsConfig)],
+      providers: [importProvidersFrom(NgxsModule.forRoot([SettingsState], ngxsConfig))],
     }).compileComponents();
   });
 

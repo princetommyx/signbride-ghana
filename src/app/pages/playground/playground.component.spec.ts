@@ -1,7 +1,8 @@
+import { importProvidersFrom } from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 import {PlaygroundComponent} from './playground.component';
-import {provideStore, Store} from '@ngxs/store';
+import {provideStore, Store, NgxsModule} from '@ngxs/store';
 import {StartCamera} from '../../core/modules/ngxs/store/video/video.actions';
 import {AppTranslocoTestingModule} from '../../core/modules/transloco/transloco-testing.module';
 import {TranslocoService} from '@jsverse/transloco';
@@ -16,7 +17,7 @@ describe('PlaygroundComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppTranslocoTestingModule, PlaygroundComponent],
-      providers: [provideStore([], ngxsConfig), provideIonicAngular()],
+      providers: [importProvidersFrom(NgxsModule.forRoot([], ngxsConfig)), provideIonicAngular()],
     }).compileComponents();
   });
 

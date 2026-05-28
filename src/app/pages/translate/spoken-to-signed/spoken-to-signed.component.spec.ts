@@ -2,8 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {axe, toHaveNoViolations} from 'jasmine-axe';
 
 import {SpokenToSignedComponent} from './spoken-to-signed.component';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {provideStore} from '@ngxs/store';
+import {CUSTOM_ELEMENTS_SCHEMA, importProvidersFrom} from '@angular/core';
+import {provideStore, NgxsModule} from '@ngxs/store';
 import {SettingsState} from '../../../modules/settings/settings.state';
 import {ngxsConfig} from '../../../app.config';
 import {TranslateState} from '../../../modules/translate/translate.state';
@@ -22,7 +22,7 @@ describe('SpokenToSignedComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideStore([SettingsState, TranslateState], ngxsConfig),
+        importProvidersFrom(NgxsModule.forRoot([SettingsState, TranslateState], ngxsConfig)),
       ],
     }).compileComponents();
   });
