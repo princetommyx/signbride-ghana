@@ -53,30 +53,16 @@
     <!-- Results Grid -->
     <div class="results-container">
       <div class="results-grid" *ngIf="filteredSigns$ | async as signs">
-        <div class="word-card" *ngFor="let sign of signs | slice: 0 : displayedLimit">
-          <div class="card-top">
-            <h3 class="word-title">{{ sign.word | uppercase }}</h3>
-            <span class="variant-badge">{{ sign.variants?.length || 1 }} VAR</span>
-          </div>
-          <div class="card-bottom">
-            <div class="page-ref">
-              <ion-icon name="book-outline"></ion-icon>
-              <span>PAGE {{ sign.pageNumber }}</span>
-            </div>
-            <div class="category-tag">{{ sign.category }}</div>
-          </div>
-
-          <!-- Detailed content (shown on hover/click in future) -->
-          <div class="card-expand" *ngIf="sign.image">
-            <img [src]="sign.image" [alt]="sign.word" loading="lazy" />
-            <p>{{ sign.description }}</p>
-          </div>
-        </div>
+        <app-dictionary-result-card
+          *ngFor="let sign of signs | slice: 0 : displayedLimit"
+          [sign]="sign"
+          (openFullPage)="openPage($event)">
+        </app-dictionary-result-card>
 
         <div class="no-results" *ngIf="signs.length === 0">
           <div class="empty-state">
             <div class="icon">🔍</div>
-            <h3>No entries found</h3>
+            <h3>No exact signs found</h3>
             <p>Try searching for a different word or clear your filters.</p>
           </div>
         </div>
@@ -87,6 +73,21 @@
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more signs...">
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
+    </div>
+  </div>
+
+  <!-- Full Page Fallback Modal -->
+  <div class="modal-overlay" *ngIf="fullPageModalOpen" (click)="closePage()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Dictionary Page View</h3>
+        <button class="close-btn" (click)="closePage()">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+      <div class="modal-body">
+        <iframe [src]="fullPagePdfSrc" frameborder="0"></iframe>
+      </div>
     </div>
   </div>
 </ion-content>

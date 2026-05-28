@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="word-title">{{ sign.word | uppercase }}</h3>
+  </div>
+
+  <div class="card-image-container">
+    <ng-container *ngIf="hasMultipleImages; else singleImage">
+      <swiper-container pagination="true" navigation="true" class="mySwiper">
+        <swiper-slide *ngFor="let img of sign.images">
+          <img [src]="img" [alt]="sign.word" loading="lazy" />
+        </swiper-slide>
+      </swiper-container>
+    </ng-container>
+    <ng-template #singleImage>
+      <img *ngIf="displayImage" [src]="displayImage" [alt]="sign.word" loading="lazy" />
+    </ng-template>
+  </div>
+
+  <div class="card-content" *ngIf="sign.description">
+    <div class="section-label">Description</div>
+    <p class="description">{{ sign.description }}</p>
+  </div>
+
+  <div class="card-tags" *ngIf="sign.tags && sign.tags.length">
+    <span class="tag" *ngFor="let tag of sign.tags">{{ tag }}</span>
+  </div>
+
+  <div class="card-aliases" *ngIf="sign.aliases && sign.aliases.length">
+    <div class="section-label">Related Terms:</div>
+    <div class="aliases-list">
+      <span class="alias" *ngFor="let alias of sign.aliases">{{ alias | uppercase }}</span>
+    </div>
+  </div>
+
+  <div class="card-footer" *ngIf="sign.page">
+    <button class="page-link" (click)="openFullPage.emit(sign.page)">
+      <span class="page-text">Page {{ sign.page }}</span>
+      <span class="link-text">Open Full Page</span>
+    </button>
+  </div>
+</div>

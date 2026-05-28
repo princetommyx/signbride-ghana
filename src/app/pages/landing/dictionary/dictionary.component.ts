@@ -5,24 +5,37 @@ import {FormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {addIcons} from 'ionicons';
-import {searchOutline, micOutline, bookOutline, chevronForwardOutline} from 'ionicons/icons';
+import {searchOutline, micOutline, bookOutline, chevronForwardOutline, closeOutline} from 'ionicons/icons';
 import {BehaviorSubject, combineLatest} from 'rxjs';
 import {map, startWith, debounceTime} from 'rxjs/operators';
+import Fuse from 'fuse.js';
 
-interface GSLSign {
+import {DictionaryResultCardComponent} from './dictionary-result-card/dictionary-result-card.component';
+
+export interface GSLSign {
   word: string;
   description: string;
-  category: string;
-  source: string;
   image?: string;
-  pageNumber?: number;
-  variants?: string[]; // Multiple sign variants for the same word
+  images?: string[];
+  page?: number;
+  letter?: string;
+  aliases?: string[];
+  tags?: string[];
 }
 
 @Component({
   selector: 'app-dictionary',
   standalone: true,
-  imports: [IonContent, FormsModule, CommonModule, IonIcon, IonButton, IonInfiniteScroll, IonInfiniteScrollContent],
+  imports: [
+    IonContent,
+    FormsModule,
+    CommonModule,
+    IonIcon,
+    IonButton,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    DictionaryResultCardComponent,
+  ],
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.scss'],
 })
@@ -39,8 +52,12 @@ export class DictionaryComponent implements OnInit {
 
   allSigns: GSLSign[] = [];
   displayedLimit = 50;
+  fuse!: Fuse<GSLSign>;
 
-  filteredSigns$ = combineLatest([this.searchQuery$.pipe(debounceTime(300)), this.selectedLetter$]).pipe(
+  fullPageModalOpen = false;
+  fullPagePdfSrc = '';
+
+  filteredSigns$ = combineLatest([this.searchQuery$.pipe(debounceTime(150)), this.selectedLetter$]).pipe(
     map(([query, letter]) => {
       let filtered = this.allSigns;
 
@@ -49,37 +66,16 @@ export class DictionaryComponent implements OnInit {
       }
 
       if (query.trim()) {
-        const q = query.toLowerCase();
-        filtered = filtered
-          .filter(
-            s =>
-              s.word.toLowerCase().includes(q) ||
-              s.category.toLowerCase().includes(q) ||
-              s.description.toLowerCase().includes(q)
-          )
-          .sort((a, b) => {
-            const aWord = a.word.toLowerCase();
-            const bWord = b.word.toLowerCase();
+        const results = this.fuse.search(query);
+        filtered = results.map(r => r.item);
 
-            // 1. Exact match
-            if (aWord === q && bWord !== q) return -1;
-            if (bWord === q && aWord !== q) return 1;
-
-            // 2. Starts with match
-            const aStarts = aWord.startsWith(q);
-            const bStarts = bWord.startsWith(q);
-            if (aStarts && !bStarts) return -1;
-            if (bStarts && !aStarts) return 1;
-
-            // 3. Word includes match (vs description includes)
-            const aIncludes = aWord.includes(q);
-            const bIncludes = bWord.includes(q);
-            if (aIncludes && !bIncludes) return -1;
-            if (bIncludes && !aIncludes) return 1;
-
-            // 4. Alphabetical fallback
-            return aWord.localeCompare(bWord);
-          });
+        // Exact match first priority is handled by Fuse.js sorting + weighted keys,
+        // but we can explicitly bump exact matches to the very top.
+        const exactMatchIndex = filtered.findIndex(s => s.word.toLowerCase() === query.trim().toLowerCase());
+        if (exactMatchIndex > 0) {
+          const exactMatch = filtered.splice(exactMatchIndex, 1)[0];
+          filtered.unshift(exactMatch);
+        }
       } else {
         // Sort alphabetically when there is no query
         filtered = [...filtered].sort((a, b) => a.word.localeCompare(b.word));
@@ -90,44 +86,41 @@ export class DictionaryComponent implements OnInit {
   );
 
   constructor() {
-    addIcons({searchOutline, micOutline, bookOutline, chevronForwardOutline});
+    addIcons({searchOutline, micOutline, bookOutline, chevronForwardOutline, closeOutline});
   }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.http.get<GSLSign[]>('assets/docs/gsl-dictionary.json').subscribe(data => {
-        // Deduplicate: merge entries with the same word (case-insensitive) into one,
-        // keeping all unique descriptions as variants.
-        const mergeMap = new Map<string, GSLSign & {variants: string[]}>();
+      this.http.get<GSLSign[]>('assets/docs/gsl-dictionary.json').subscribe({
+        next: data => {
+          this.allSigns = data;
+          this.initFuse();
 
-        for (const sign of data) {
-          const key = sign.word.trim().toLowerCase();
-          if (mergeMap.has(key)) {
-            const existing = mergeMap.get(key)!;
-            if (sign.description && !existing.variants.includes(sign.description)) {
-              existing.variants.push(sign.description);
-              // Append variant descriptions so search still works across all of them
-              existing.description = existing.variants.join(' | ');
+          this.route.queryParams.subscribe(params => {
+            if (params['search']) {
+              this.searchQuery$.next(params['search']);
             }
-          } else {
-            mergeMap.set(key, {
-              ...sign,
-              word: sign.word.trim(),
-              pageNumber: Math.floor(Math.random() * 400) + 1,
-              variants: sign.description ? [sign.description] : [],
-            });
-          }
-        }
-
-        this.allSigns = Array.from(mergeMap.values());
-
-        this.route.queryParams.subscribe(params => {
-          if (params['search']) {
-            this.searchQuery$.next(params['search']);
-          }
-        });
+          });
+        },
+        error: err => {
+          console.error('Could not load dictionary data. Have you run the extraction script?', err);
+        },
       });
     }
+  }
+
+  initFuse() {
+    this.fuse = new Fuse(this.allSigns, {
+      keys: [
+        {name: 'word', weight: 3},
+        {name: 'aliases', weight: 2},
+        {name: 'tags', weight: 1.5},
+        {name: 'description', weight: 1},
+      ],
+      threshold: 0.3,
+      includeScore: true,
+      ignoreLocation: true,
+    });
   }
 
   onSearchChange(event: any) {
@@ -157,5 +150,16 @@ export class DictionaryComponent implements OnInit {
   loadMore(event: any) {
     this.displayedLimit += 50;
     event.target.complete();
+  }
+
+  openPage(pageNumber: number) {
+    // Basic fallback: just using the PDF inside an iframe and using #page= param
+    this.fullPagePdfSrc = `assets/docs/Ghanaian Sign Language Dictionary - 3rd Edition.pdf#page=${pageNumber}`;
+    this.fullPageModalOpen = true;
+  }
+
+  closePage() {
+    this.fullPageModalOpen = false;
+    this.fullPagePdfSrc = '';
   }
 }
