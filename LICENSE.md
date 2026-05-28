@@ -1,11 +1,8 @@
-# License for [`sign.mt`](https://sign.mt)
+# Terms of Use & License for SignBridge Ghana
 
-The license for `sign.mt` is divided into two tiers, based on the type of your legal entity.
-Individuals, non-profit organizations, and educational institutions are permitted to use `sign.mt` for sign language translation without charge,
-while a separate license is required for for-profit commercial organizations.
+The license for SignBridge Ghana is divided into two tiers, based on the type of your legal entity. Individuals, non-profit organizations, and educational institutions are permitted to use SignBridge Ghana for sign language translation without charge, while a separate license is required for for-profit commercial organizations.
 
-This licensing model has been designed to provide funding for the development and maintenance of `sign.mt`,
-while still making the source code accessible and the program free for a majority of users.
+This licensing model has been designed to provide funding for the development, hosting, and maintenance of SignBridge Ghana, while still keeping the source code accessible and the program free for a majority of users.
 
 Please review the following license terms carefully to determine which license applies to your use case.
 
@@ -16,7 +13,7 @@ Please review the following license terms carefully to determine which license a
 
 ## Free license
 
-Copyright (c) 2022 sign.mt ltd
+Copyright (c) 2026 SignBridge Ghana Team (University of Professional Studies, Accra - UPSA)
 
 ### [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -187,4 +184,4 @@ d. Nothing in this Public License constitutes or may be interpreted as a limitat
 The commercial license is required for organizations that do not meet the criteria for the free license.
 
 Detailed information about the commercial license, including the scope of its usage and the licensing fee, will be provided upon request.
-Please direct all inquiries regarding the commercial license to <a href="mailto:sign@nagish.com">sign&#64;nagish.com</a>.
+Please direct all inquiries regarding the commercial license to [license@signbridgeghana.org](mailto:license@signbridgeghana.org).
