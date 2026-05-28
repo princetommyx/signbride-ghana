@@ -1,17 +1,17 @@
-import { Component, inject } from '@angular/core';
-import { IonButton, IonContent, IonIcon, IonSpinner } from '@ionic/angular/standalone';
-import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
-import { addIcons } from 'ionicons';
-import { mailOutline, callOutline, locationOutline, sendOutline } from 'ionicons/icons';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import {Component, inject} from '@angular/core';
+import {IonButton, IonContent, IonIcon, IonSpinner} from '@ionic/angular/standalone';
+import {FormsModule} from '@angular/forms';
+
+import {addIcons} from 'ionicons';
+import {mailOutline, callOutline, locationOutline, sendOutline} from 'ionicons/icons';
+import {HttpClient} from '@angular/common/http';
+import {catchError} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-support',
   standalone: true,
-  imports: [IonContent, IonIcon, IonButton, IonSpinner, FormsModule, NgIf],
+  imports: [IonContent, IonIcon, IonButton, IonSpinner, FormsModule],
   templateUrl: './support.component.html',
   styleUrls: ['./support.component.scss'],
 })
@@ -25,7 +25,7 @@ export class SupportComponent {
   private http = inject(HttpClient);
 
   constructor() {
-    addIcons({ mailOutline, callOutline, locationOutline, sendOutline });
+    addIcons({mailOutline, callOutline, locationOutline, sendOutline});
   }
 
   onSubmit() {

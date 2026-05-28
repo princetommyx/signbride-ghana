@@ -1,6 +1,6 @@
 <app-animation [fps]="effectiveFps"></app-animation>
 
-<ng-container *ngIf="poseViewerSupported; else poseViewerUnavailable">
+@if (poseViewerSupported) {
   <pose-viewer
     class="pose-viewer"
     #poseViewer
@@ -10,10 +10,8 @@
     [background]="background"
     [width]="'100%'"
     [height]="'100%'"></pose-viewer>
-</ng-container>
-
-<ng-template #poseViewerUnavailable>
+} @else {
   <div class="pose-viewer-fallback" role="alert" aria-live="polite">
     Avatar rendering is unavailable in this environment. The translation is still available via the video and controls.
   </div>
-</ng-template>
+}

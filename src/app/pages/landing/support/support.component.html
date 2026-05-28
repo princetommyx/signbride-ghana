@@ -30,47 +30,50 @@
       <div class="support-form-container">
         <h2>Send us a message</h2>
 
-        <div class="success-message" *ngIf="isSubmitted">
-          <ion-icon name="send-outline"></ion-icon>
-          <p>Your message has been sent successfully. We will get back to you soon!</p>
-        </div>
-
-        <form (ngSubmit)="onSubmit()" *ngIf="!isSubmitted">
-          <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" [(ngModel)]="name" required placeholder="John Doe" />
+        @if (isSubmitted) {
+          <div class="success-message">
+            <ion-icon name="send-outline"></ion-icon>
+            <p>Your message has been sent successfully. We will get back to you soon!</p>
           </div>
+        }
 
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              [(ngModel)]="email"
-              required
-              placeholder="john&#64;example.com" />
-          </div>
-
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              [(ngModel)]="message"
-              required
-              rows="5"
-              placeholder="How can we help you?"></textarea>
-          </div>
-
-          <ion-button expand="block" type="submit" [disabled]="!name || !email || !message || isSubmitting">
-            <ng-container *ngIf="!isSubmitting">
-              Send Message
-              <ion-icon slot="end" name="send-outline"></ion-icon>
-            </ng-container>
-            <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
-          </ion-button>
-        </form>
+        @if (!isSubmitted) {
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" [(ngModel)]="name" required placeholder="John Doe" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                [(ngModel)]="email"
+                required
+                placeholder="john&#64;example.com" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                [(ngModel)]="message"
+                required
+                rows="5"
+                placeholder="How can we help you?"></textarea>
+            </div>
+            <ion-button expand="block" type="submit" [disabled]="!name || !email || !message || isSubmitting">
+              @if (!isSubmitting) {
+                Send Message
+                <ion-icon slot="end" name="send-outline"></ion-icon>
+              }
+              @if (isSubmitting) {
+                <ion-spinner name="crescent"></ion-spinner>
+              }
+            </ion-button>
+          </form>
+        }
       </div>
     </div>
   </div>

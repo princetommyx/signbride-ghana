@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {IonIcon} from '@ionic/angular/standalone';
 import {addIcons} from 'ionicons';
 import {bulbOutline, codeSlashOutline, trendingUpOutline} from 'ionicons/icons';
@@ -8,7 +8,7 @@ import {bulbOutline, codeSlashOutline, trendingUpOutline} from 'ionicons/icons';
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
-  imports: [CommonModule, IonIcon],
+  imports: [IonIcon],
 })
 export class AboutComponent {
   // SignBridge Ghana About Component

@@ -36,37 +36,38 @@
           <ion-icon name="book-outline"></ion-icon>
           <h2>DICTIONARY INDEX</h2>
         </div>
-        <div class="entry-count" *ngIf="filteredSigns$ | async as signs">{{ signs.length }} ENTRIES</div>
+        @if (filteredSigns$ | async; as signs) {
+          <div class="entry-count">{{ signs.length }} ENTRIES</div>
+        }
       </div>
 
       <div class="alphabet-grid">
-        <button
-          *ngFor="let char of alphabet"
-          class="letter-btn"
-          [class.active]="(selectedLetter$ | async) === char"
-          (click)="filterByLetter(char)">
-          {{ char }}
-        </button>
+        @for (char of alphabet; track char) {
+          <button class="letter-btn" [class.active]="(selectedLetter$ | async) === char" (click)="filterByLetter(char)">
+            {{ char }}
+          </button>
+        }
       </div>
     </div>
 
     <!-- Results Grid -->
     <div class="results-container">
-      <div class="results-grid" *ngIf="filteredSigns$ | async as signs">
-        <app-dictionary-result-card
-          *ngFor="let sign of signs | slice: 0 : displayedLimit"
-          [sign]="sign"
-          (openFullPage)="openPage($event)">
-        </app-dictionary-result-card>
-
-        <div class="no-results" *ngIf="signs.length === 0">
-          <div class="empty-state">
-            <div class="icon">🔍</div>
-            <h3>No exact signs found</h3>
-            <p>Try searching for a different word or clear your filters.</p>
-          </div>
+      @if (filteredSigns$ | async; as signs) {
+        <div class="results-grid">
+          @for (sign of signs | slice: 0 : displayedLimit; track sign) {
+            <app-dictionary-result-card [sign]="sign" (openFullPage)="openPage($event)"> </app-dictionary-result-card>
+          }
+          @if (signs.length === 0) {
+            <div class="no-results">
+              <div class="empty-state">
+                <div class="icon">🔍</div>
+                <h3>No exact signs found</h3>
+                <p>Try searching for a different word or clear your filters.</p>
+              </div>
+            </div>
+          }
         </div>
-      </div>
+      }
 
       <!-- Infinite Scroll -->
       <ion-infinite-scroll (ionInfinite)="loadMore($event)">
@@ -77,17 +78,19 @@
   </div>
 
   <!-- Full Page Fallback Modal -->
-  <div class="modal-overlay" *ngIf="fullPageModalOpen" (click)="closePage()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>Dictionary Page View</h3>
-        <button class="close-btn" (click)="closePage()">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
-      </div>
-      <div class="modal-body">
-        <iframe [src]="fullPagePdfSrc" frameborder="0"></iframe>
+  @if (fullPageModalOpen) {
+    <div class="modal-overlay" (click)="closePage()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Dictionary Page View</h3>
+          <button class="close-btn" (click)="closePage()">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+        <div class="modal-body">
+          <iframe [src]="fullPagePdfSrc" frameborder="0"></iframe>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </ion-content>

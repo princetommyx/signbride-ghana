@@ -4,38 +4,53 @@
   </div>
 
   <div class="card-image-container">
-    <ng-container *ngIf="hasMultipleImages; else singleImage">
+    @if (hasMultipleImages) {
       <swiper-container pagination="true" navigation="true" class="mySwiper">
-        <swiper-slide *ngFor="let img of sign.images">
-          <img [src]="img" [alt]="sign.word" loading="lazy" />
-        </swiper-slide>
+        @for (img of sign.images; track img) {
+          <swiper-slide>
+            <img [src]="img" [alt]="sign.word" loading="lazy" />
+          </swiper-slide>
+        }
       </swiper-container>
-    </ng-container>
-    <ng-template #singleImage>
-      <img *ngIf="displayImage" [src]="displayImage" [alt]="sign.word" loading="lazy" />
-    </ng-template>
+    } @else {
+      @if (displayImage) {
+        <img [src]="displayImage" [alt]="sign.word" loading="lazy" />
+      }
+    }
   </div>
 
-  <div class="card-content" *ngIf="sign.description">
-    <div class="section-label">Description</div>
-    <p class="description">{{ sign.description }}</p>
-  </div>
-
-  <div class="card-tags" *ngIf="sign.tags && sign.tags.length">
-    <span class="tag" *ngFor="let tag of sign.tags">{{ tag }}</span>
-  </div>
-
-  <div class="card-aliases" *ngIf="sign.aliases && sign.aliases.length">
-    <div class="section-label">Related Terms:</div>
-    <div class="aliases-list">
-      <span class="alias" *ngFor="let alias of sign.aliases">{{ alias | uppercase }}</span>
+  @if (sign.description) {
+    <div class="card-content">
+      <div class="section-label">Description</div>
+      <p class="description">{{ sign.description }}</p>
     </div>
-  </div>
+  }
 
-  <div class="card-footer" *ngIf="sign.page">
-    <button class="page-link" (click)="openFullPage.emit(sign.page)">
-      <span class="page-text">Page {{ sign.page }}</span>
-      <span class="link-text">Open Full Page</span>
-    </button>
-  </div>
+  @if (sign.tags && sign.tags.length) {
+    <div class="card-tags">
+      @for (tag of sign.tags; track tag) {
+        <span class="tag">{{ tag }}</span>
+      }
+    </div>
+  }
+
+  @if (sign.aliases && sign.aliases.length) {
+    <div class="card-aliases">
+      <div class="section-label">Related Terms:</div>
+      <div class="aliases-list">
+        @for (alias of sign.aliases; track alias) {
+          <span class="alias">{{ alias | uppercase }}</span>
+        }
+      </div>
+    </div>
+  }
+
+  @if (sign.page) {
+    <div class="card-footer">
+      <button class="page-link" (click)="openFullPage.emit(sign.page)">
+        <span class="page-text">Page {{ sign.page }}</span>
+        <span class="link-text">Open Full Page</span>
+      </button>
+    </div>
+  }
 </div>
