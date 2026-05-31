@@ -1,5 +1,6 @@
 .card {
   width: 340px;
+  height: 560px; /* Fixed card height for absolute consistency across rows */
   background-color: var(--app-glass-background, #ffffff);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -10,7 +11,9 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-6px);
@@ -19,13 +22,24 @@
 }
 
 .card-header {
+  height: 48px; /* Fixed height for title block to align image containers vertically */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
   .word-title {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.35rem; /* Balanced size for excellent legibility */
     font-weight: 700;
     color: var(--ion-text-color, #333);
     text-align: center;
     letter-spacing: 0.5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Clamp long titles to 2 lines max */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.25;
   }
 }
 
@@ -37,7 +51,7 @@
   background-color: var(--app-tinted-background-color, #f8f9fa);
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 
   img {
     width: 100%;
@@ -47,19 +61,21 @@
     transition: transform 0.3s ease;
   }
 
-  &.align-left img, &.align-right img {
-    width: 200%;
-    max-width: none;
+  &.align-left img,
+  &.align-right img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
     object-fit: cover;
     padding: 0;
   }
 
   &.align-left img {
-    transform: translateX(0);
+    object-position: left bottom; /* Focus on the lower portion of the image to show hands and crop out top text labels */
   }
 
   &.align-right img {
-    transform: translateX(-50%);
+    object-position: right bottom; /* Focus on the lower portion of the image to show hands and crop out top text labels */
   }
 
   swiper-container {
@@ -77,11 +93,20 @@
 }
 
 .card-content {
+  height: 90px; /* Fixed height for description block to align footer elements */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
   .description {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--ion-color-step-600, #444);
-    line-height: 1.5;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Clamp descriptions to 3 lines max */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 

@@ -3,7 +3,13 @@
     <h3 class="word-title">{{ sign.word | uppercase }}</h3>
   </div>
 
-  <div class="card-image-container" [ngClass]="{'align-left': sign.align === 'left', 'align-right': sign.align === 'right', 'align-full': sign.align === 'full'}">
+  <div
+    class="card-image-container"
+    [ngClass]="{
+      'align-left': sign.align === 'left',
+      'align-right': sign.align === 'right',
+      'align-full': sign.align === 'full',
+    }">
     @if (hasMultipleImages) {
       <swiper-container pagination="true" navigation="true" class="mySwiper">
         @for (img of sign.images; track img) {
@@ -47,7 +53,7 @@
 
   @if (sign.page) {
     <div class="card-footer">
-      <button class="page-link" (click)="openFullPage.emit(sign.page)">
+      <button class="page-link" (click)="openFullPage.emit(sign)">
         <span class="page-text">Page {{ sign.page }}</span>
         <span class="link-text">Open Full Page</span>
       </button>

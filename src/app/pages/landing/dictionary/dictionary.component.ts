@@ -1,11 +1,21 @@
-import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, inject, OnInit, PLATFORM_ID, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {isPlatformBrowser, CommonModule} from '@angular/common';
 import {IonContent, IonIcon, IonButton, IonInfiniteScroll, IonInfiniteScrollContent} from '@ionic/angular/standalone';
 import {FormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {addIcons} from 'ionicons';
-import {searchOutline, micOutline, bookOutline, chevronForwardOutline, closeOutline} from 'ionicons/icons';
+import {
+  searchOutline,
+  micOutline,
+  bookOutline,
+  chevronForwardOutline,
+  closeOutline,
+  informationCircleOutline,
+  linkOutline,
+  pricetagsOutline,
+  videocamOutline,
+} from 'ionicons/icons';
 import {BehaviorSubject, combineLatest} from 'rxjs';
 import {map, startWith, debounceTime} from 'rxjs/operators';
 import Fuse from 'fuse.js';
@@ -37,12 +47,14 @@ export interface GSLSign {
     IonInfiniteScrollContent,
     DictionaryResultCardComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.scss'],
 })
 export class DictionaryComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -57,6 +69,7 @@ export class DictionaryComponent implements OnInit {
 
   fullPageModalOpen = false;
   fullPagePdfSrc = '';
+  selectedSign: GSLSign | null = null;
 
   filteredSigns$ = combineLatest([this.searchQuery$.pipe(debounceTime(150)), this.selectedLetter$]).pipe(
     map(([query, letter]) => {
@@ -87,7 +100,17 @@ export class DictionaryComponent implements OnInit {
   );
 
   constructor() {
-    addIcons({searchOutline, micOutline, bookOutline, chevronForwardOutline, closeOutline});
+    addIcons({
+      searchOutline,
+      micOutline,
+      bookOutline,
+      chevronForwardOutline,
+      closeOutline,
+      informationCircleOutline,
+      linkOutline,
+      pricetagsOutline,
+      videocamOutline,
+    });
   }
 
   ngOnInit() {
@@ -153,14 +176,24 @@ export class DictionaryComponent implements OnInit {
     event.target.complete();
   }
 
-  openPage(pageNumber: number) {
-    // Basic fallback: just using the PDF inside an iframe and using #page= param
-    this.fullPagePdfSrc = `assets/docs/Ghanaian Sign Language Dictionary - 3rd Edition.pdf#page=${pageNumber}`;
+  openPage(sign: any) {
+    this.selectedSign = sign;
     this.fullPageModalOpen = true;
   }
 
   closePage() {
     this.fullPageModalOpen = false;
-    this.fullPagePdfSrc = '';
+    this.selectedSign = null;
+  }
+
+  searchAlias(alias: string) {
+    this.searchQuery$.next(alias);
+    this.selectedLetter$.next(null);
+    this.closePage();
+  }
+
+  practiceSign(word: string) {
+    this.closePage();
+    this.router.navigate(['/translate'], {queryParams: {search: word}});
   }
 }
