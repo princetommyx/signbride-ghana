@@ -1,7 +1,7 @@
 <ion-content>
-  <div class="dictionary-wrapper" style="animation: fadeIn 0.5s ease-out both;">
+  <div class="dictionary-wrapper" style="animation: fadeIn 0.5s ease-out both">
     <!-- Main Search Section -->
-    <div class="search-section" style="animation: slideDown 0.6s ease-out 0.1s both;">
+    <div class="search-section" style="animation: slideDown 0.6s ease-out 0.1s both">
       <div class="search-container">
         <div class="search-bar glass-panel">
           <ion-icon name="search-outline" class="search-icon"></ion-icon>
@@ -51,11 +51,15 @@
     </div>
 
     <!-- Results Grid -->
-    <div class="results-container" style="animation: slideUp 0.6s ease-out 0.3s both;">
+    <div class="results-container" style="animation: slideUp 0.6s ease-out 0.3s both">
       @if (filteredSigns$ | async; as signs) {
         <div class="results-grid">
           @for (sign of signs | slice: 0 : displayedLimit; track sign; let i = $index) {
-            <app-dictionary-result-card [sign]="sign" (openFullPage)="openPage($event)" [style.animation]="'scaleIn 0.5s ease-out ' + (i * 0.05) + 's both'"> </app-dictionary-result-card>
+            <app-dictionary-result-card
+              [sign]="sign"
+              (openFullPage)="openPage($event)"
+              [style.animation]="'scaleIn 0.5s ease-out ' + i * 0.05 + 's both'">
+            </app-dictionary-result-card>
           }
           @if (signs.length === 0) {
             <div class="no-results">
@@ -77,18 +81,94 @@
     </div>
   </div>
 
-  <!-- Full Page Fallback Modal -->
-  @if (fullPageModalOpen) {
+  <!-- Premium Sign Details Modal -->
+  @if (fullPageModalOpen && selectedSign) {
     <div class="modal-overlay" (click)="closePage()">
       <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h3>Dictionary Page View</h3>
+          <div class="header-title-container">
+            <span class="category-badge">Page {{ selectedSign.page }}</span>
+            <h2>{{ selectedSign.word | uppercase }}</h2>
+          </div>
           <button class="close-btn" (click)="closePage()">
             <ion-icon name="close-outline"></ion-icon>
           </button>
         </div>
-        <div class="modal-body">
-          <iframe [src]="fullPagePdfSrc" frameborder="0"></iframe>
+        <div class="modal-body sign-details-container">
+          <div class="details-grid">
+            <!-- Left Side: Large Centered Image -->
+            <div class="details-image-section">
+              <div
+                class="large-image-wrapper"
+                [ngClass]="{
+                  'align-left': selectedSign.align === 'left',
+                  'align-right': selectedSign.align === 'right',
+                  'align-full': selectedSign.align === 'full',
+                }">
+                @if (selectedSign.images && selectedSign.images.length > 1) {
+                  <swiper-container pagination="true" navigation="true" class="modalSwiper">
+                    @for (img of selectedSign.images; track img) {
+                      <swiper-slide>
+                        <img [src]="img" [alt]="selectedSign.word" />
+                      </swiper-slide>
+                    }
+                  </swiper-container>
+                } @else {
+                  <img
+                    [src]="selectedSign.image || (selectedSign.images && selectedSign.images[0])"
+                    [alt]="selectedSign.word" />
+                }
+              </div>
+            </div>
+
+            <!-- Right Side: Details and Actions -->
+            <div class="details-content-section">
+              @if (selectedSign.description) {
+                <div class="detail-group">
+                  <div class="detail-label">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    How to Sign
+                  </div>
+                  <p class="detail-description">{{ selectedSign.description }}</p>
+                </div>
+              }
+
+              @if (selectedSign.aliases && selectedSign.aliases.length) {
+                <div class="detail-group">
+                  <div class="detail-label">
+                    <ion-icon name="link-outline"></ion-icon>
+                    Related Terms
+                  </div>
+                  <div class="detail-aliases-list">
+                    @for (alias of selectedSign.aliases; track alias) {
+                      <span class="detail-alias-chip" (click)="searchAlias(alias)">{{ alias | uppercase }}</span>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (selectedSign.tags && selectedSign.tags.length) {
+                <div class="detail-group">
+                  <div class="detail-label">
+                    <ion-icon name="pricetags-outline"></ion-icon>
+                    Tags
+                  </div>
+                  <div class="detail-tags-list">
+                    @for (tag of selectedSign.tags; track tag) {
+                      <span class="detail-tag-chip">{{ tag }}</span>
+                    }
+                  </div>
+                </div>
+              }
+
+              <div class="detail-actions">
+                <button class="action-btn primary" (click)="practiceSign(selectedSign.word)">
+                  <ion-icon name="videocam-outline"></ion-icon>
+                  Practice & Translate Sign
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
