@@ -92,7 +92,7 @@ export class ChatbotWidgetComponent {
       },
     });
 
-    // Safety timeout: if no response in 15s, reset the sending state so the user can type again
+    // Safety timeout: if no response in 45s, reset the sending state so the user can type again
     setTimeout(() => {
       if (this.isSending) {
         this.isSending = false;
@@ -100,7 +100,7 @@ export class ChatbotWidgetComponent {
           this.errorMessage = 'The response is taking longer than usual. You can try sending again.';
         }
       }
-    }, 15000);
+    }, 45000);
   }
 
   getDictionaryLink(text: string): string | null {
