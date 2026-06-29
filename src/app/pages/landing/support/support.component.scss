@@ -145,3 +145,68 @@
     }
   }
 }
+
+@mixin dark-mode {
+  .support-wrapper {
+    color: #e2e8f0;
+
+    .support-header {
+      h1 {
+        color: #ffffff;
+      }
+      p {
+        color: #e2e8f0;
+      }
+    }
+
+    .support-content {
+      .contact-info .info-card {
+        background: rgba(30, 41, 59, 0.85);
+        border-color: rgba(255, 255, 255, 0.1);
+
+        h3 {
+          color: #f8fafc;
+        }
+
+        p {
+          color: #94a3b8;
+        }
+      }
+
+      .support-form-container {
+        background: rgba(30, 41, 59, 0.85);
+        border-color: rgba(255, 255, 255, 0.1);
+
+        h2 {
+          color: #f8fafc;
+        }
+
+        .form-group {
+          label {
+            color: #e2e8f0;
+          }
+
+          input,
+          textarea {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+
+            &:focus {
+              background: rgba(15, 23, 42, 0.9);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @include dark-mode;
+}
+
+:host-context(body.dark),
+:host-context(body.ion-palette-dark) {
+  @include dark-mode;
+}

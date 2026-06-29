@@ -328,20 +328,21 @@ export class TranslateState implements NgxsOnInit {
             catchError(e => {
               console.error('Pose fetch failed', e);
               return of(null);
+            }),
+            tap(poseUrl => {
+              patchState({signedLanguagePose: poseUrl});
             })
           ),
           sw$.pipe(
             catchError(e => {
               console.error('SignWriting fetch failed', e);
               return of({text: ''});
+            }),
+            tap(({text}) => {
+              dispatch(new SetSignWritingText(text.split(' ')));
             })
           ),
-        ]).pipe(
-          tap(([poseUrl, {text}]) => {
-            patchState({signedLanguagePose: poseUrl});
-            dispatch(new SetSignWritingText(text.split(' ')));
-          })
-        );
+        ]);
       }
     }
 

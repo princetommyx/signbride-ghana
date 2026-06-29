@@ -64,6 +64,7 @@ export class DictionaryComponent implements OnInit {
   selectedLetter$ = new BehaviorSubject<string | null>(null);
 
   allSigns: GSLSign[] = [];
+  allSigns$ = new BehaviorSubject<GSLSign[]>([]);
   displayedLimit = 50;
   fuse!: Fuse<GSLSign>;
 
@@ -71,9 +72,13 @@ export class DictionaryComponent implements OnInit {
   fullPagePdfSrc = '';
   selectedSign: GSLSign | null = null;
 
-  filteredSigns$ = combineLatest([this.searchQuery$.pipe(debounceTime(150)), this.selectedLetter$]).pipe(
-    map(([query, letter]) => {
-      let filtered = this.allSigns;
+  filteredSigns$ = combineLatest([
+    this.searchQuery$.pipe(debounceTime(150)),
+    this.selectedLetter$,
+    this.allSigns$,
+  ]).pipe(
+    map(([query, letter, allSigns]) => {
+      let filtered = allSigns;
 
       if (letter) {
         filtered = filtered.filter(s => s.word.toUpperCase().startsWith(letter));
@@ -118,6 +123,7 @@ export class DictionaryComponent implements OnInit {
       this.http.get<GSLSign[]>('assets/data/gsl_dictionary.json').subscribe({
         next: data => {
           this.allSigns = data;
+          this.allSigns$.next(data);
           this.initFuse();
 
           this.route.queryParams.subscribe(params => {

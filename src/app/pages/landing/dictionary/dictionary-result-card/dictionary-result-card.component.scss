@@ -177,3 +177,62 @@
     }
   }
 }
+
+@mixin dark-mode {
+  .card {
+    background-color: var(--app-glass-background, rgba(30, 41, 59, 0.85));
+    border-color: var(--app-glass-border, rgba(255, 255, 255, 0.1));
+  }
+
+  .card-header .word-title {
+    color: #f8fafc;
+  }
+
+  .card-image-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  .section-label {
+    color: #94a3b8;
+  }
+
+  .card-content .description {
+    color: #e2e8f0;
+  }
+
+  .card-tags .tag {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+  }
+
+  .card-aliases .alias {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+  }
+
+  .card-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+
+    .page-link {
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      .page-text {
+        color: #94a3b8;
+      }
+      .link-text {
+        color: #93c5fd;
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @include dark-mode;
+}
+
+:host-context(body.dark),
+:host-context(body.ion-palette-dark) {
+  @include dark-mode;
+}
