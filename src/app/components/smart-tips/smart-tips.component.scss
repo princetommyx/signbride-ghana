@@ -67,3 +67,44 @@ ion-card {
     font-weight: 500;
   }
 }
+
+@mixin dark-mode {
+  ion-card {
+    --background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    ion-card-title {
+      color: #818cf8;
+    }
+
+    ion-card-content {
+      color: #e2e8f0;
+    }
+  }
+
+  .smart-tip-bar {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    .signing-label {
+      color: #818cf8;
+    }
+
+    .signing-word {
+      color: #f8fafc;
+    }
+
+    .signing-tip {
+      color: #cbd5e1;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @include dark-mode;
+}
+
+:host-context(body.dark),
+:host-context(body.ion-palette-dark) {
+  @include dark-mode;
+}

@@ -43,6 +43,15 @@ const LOCAL_GSL_DICT: Record<string, string> = {
   father: 'Tap your forehead repeatedly with an open thumb (5-handshape).',
   water: 'Index finger of a "W" handshape tapping the chin.',
   food: 'Bring fingers together and touch your mouth repetitively.',
+  university: 'Form a "U" handshape and move it in a small circle, then land it on the back of your other open hand.',
+  accra: 'Tap the side of your chin with an "A" handshape.',
+  upsa: 'Fingerspell U-P-S-A using standard manual alphabet.',
+  professional: 'Slide the side of your dominant flat hand forward along the top edge of your non-dominant flat hand.',
+  studies: 'Hold one hand flat like a book, and point the fingers of the other hand at it while wiggling them.',
+  welcome: 'Move your open hand in a sweeping motion toward your body, as if inviting someone in.',
+  about: 'Point one index finger forward, and use the other index finger to draw a circle around it.',
+  theophilus: 'Fingerspell T-H-E-O-P-H-I-L-U-S.',
+  morrow: 'Fingerspell M-O-R-R-O-W.',
 };
 
 @Injectable({
