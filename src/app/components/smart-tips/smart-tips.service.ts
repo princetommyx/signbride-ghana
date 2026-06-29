@@ -52,6 +52,15 @@ const LOCAL_GSL_DICT: Record<string, string> = {
   about: 'Point one index finger forward, and use the other index finger to draw a circle around it.',
   theophilus: 'Fingerspell T-H-E-O-P-H-I-L-U-S.',
   morrow: 'Fingerspell M-O-R-R-O-W.',
+  panel: 'Hold both "L" hands in front of you, thumbs up, and move them apart to outline a rectangular group.',
+  judges: 'Tap an "F" handshape (thumb and index touching) up and down like a gavel striking a block.',
+  pleased: 'Place your flat open hand over your chest and rub in a small circular motion.',
+  present: 'Hold both open hands flat, palms up, and move them forward toward the audience.',
+  our: 'Cup your hand slightly, touch your thumb side to your right shoulder, then arc it across your chest to touch the left shoulder.',
+  final: 'Hold one hand flat and strike the edge of it with your other hand moving downward in a decisive motion.',
+  year: 'Form two "S" fists. Revolve the dominant fist completely around the non-dominant fist and land it back on top.',
+  project: 'Use two "J" hands moving outward to draw a shape, or fingerspell P-R-O-J-E-C-T.',
+  work: 'Tap the heel of your dominant "S" fist against the wrist of your non-dominant "S" fist.',
 };
 
 @Injectable({
